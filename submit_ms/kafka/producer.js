@@ -2,27 +2,36 @@ const kafka = require('./kafka'); // Assuming you have your Kafka configuration 
 
 const producer = kafka.producer();
 
-//JUST TESTING
-
-const produceMessages = async () => {
+exports.send_submition = async (sourcefile,type) => {
     try {
-        await producer.connect();
-        console.log('Producer connected to Kafka');
-        
-        await producer.send({
-            topic: 'test-topic',
-            messages: [
-                { value: 'Hello Kafka!' },
-                { value: 'This is a test message.' }
-            ]
-        });
-        console.log('Messages sent successfully');
+        if(type == 'metadata'){
+            await producer.connect();
+            await producer.send({
+                topic: 'submit-queue',
+                messages: [
+                    { value: sourcefile[0] },
+                    { value: sourcefile[1] },
+                    { value: 'metadata' }
+                ]
+            });
+            await producer.disconnect();
+        }else{
+            await producer.connect();
+            await producer.send({
+                topic: 'submit-queue',
+                messages: [
+                    //{ value: 'sending source file to be stored' },
+                    { value: sourcefile },
+                    { value: 'source file' }
+    
+                ]
+            });
+            await producer.disconnect();
+        }
 
-        await producer.disconnect();
-        console.log('Producer disconnected from Kafka');
     } catch (error) {
         console.error('Error producing messages:', error);
     }
 }
 
-produceMessages();
+//produceMessages(); // for testing purposes
