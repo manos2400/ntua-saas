@@ -12,8 +12,8 @@ database.initialize().then(async () => {
     app.listen(3000, () => {
         console.log(chalk.blueBright('Server running on port 3000'));
     });
-        await kafka.consume(['problems.submit', 'problems.result'], async (topic, message) => {
-            if(topic === 'problems.submit') {
+        await kafka.consume(['submit-queue', 'result-queue'], async (topic, message) => {
+            if(topic === 'submit-queue') {
                 // parse json message
                 const {description, solver, data, args} = JSON.parse(message.value.toString());
                 if (!description || !solver || !data || !args) {
@@ -30,7 +30,7 @@ database.initialize().then(async () => {
                 });
                 await database.getRepository(Problem).save(problem);
                 console.log(chalk.green('New problem saved!'));
-            } else if(topic === 'problems.result') {
+            } else if(topic === 'result-queue') {
                 // parse json message
                 const {problemID, output} = JSON.parse(message.value.toString());
                 if (!problemID) {

@@ -1,5 +1,6 @@
 import { DataSource } from "typeorm";
-
+import { Problem } from "../entities/problem.entity";
+import { Result } from "../entities/result.entity";
 export const database: DataSource = new DataSource({
     type: "postgres",
     host: "localhost",
@@ -7,6 +8,6 @@ export const database: DataSource = new DataSource({
     username: "saas",
     password: "saas2024",
     database: "problems-ms-db",
-    entities: [__dirname + '/entities/*.entity.{ts,js}'],
-    synchronize: true
+    entities: [Problem, Result],
+    synchronize: true,
 })
