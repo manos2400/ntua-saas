@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 
 const corsOptions = {
     origin: '*', // TODO: update this later
-    methods: 'GET',
+    methods: 'GET, DELETE',
 };
 
 app.use(cors(corsOptions));
@@ -18,5 +18,7 @@ app.use(cors(corsOptions));
 app.get('/status', getStatus);
 app.get('/problems', problemController.getAllProblems);
 app.get('/problems/:id', problemController.getProblem);
+
+app.delete('/problems/:id', problemController.deleteProblem);
 
 export default app;

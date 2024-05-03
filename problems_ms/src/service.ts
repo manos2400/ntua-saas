@@ -6,12 +6,12 @@ import { database } from "./utils/database";
 import {Problem} from "./entities/problem.entity";
 import {Result} from "./entities/result.entity";
 
-const kafka = new KafkaClient();
+export const kafka = new KafkaClient();
 const PORT = process.env.PORT || 3000;
 database.initialize().then(async () => {
     console.log(chalk.blueBright('Database connected!'));
     app.listen(PORT, () => {
-        console.log(chalk.blueBright('Server running on port' + PORT));
+        console.log(chalk.blueBright('Server running on port ' + PORT));
     });
         await kafka.consume(['submit-queue', 'result-queue'], async (topic, message) => {
             if(topic === 'submit-queue') {
