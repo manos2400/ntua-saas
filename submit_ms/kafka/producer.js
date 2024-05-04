@@ -4,27 +4,31 @@ const producer = kafka.producer();
 
 exports.send_submition = async (sourcefile,type) => {
     try {
-        if(type == 'metadata'){
+        if (type === 'metadata') {
             await producer.connect();
+            const messageData = JSON.parse(sourcefile[0].toString())
+            const message = {
+                data: messageData,
+                solver_id: sourcefile[1],
+                type: 'metadata'
+            };
             await producer.send({
                 topic: 'submit-queue',
-                messages: [
-                    { value: sourcefile[0] },
-                    { value: sourcefile[1] },
-                    { value: 'metadata' }
-                ]
+                messages: [{ value: JSON.stringify(message) }]
             });
             await producer.disconnect();
-        }else{
+        }
+        
+        else{
             await producer.connect();
+            const messageData = sourcefile.toString();
+            const message = {
+                data: messageData,
+                type: 'sourcefile'
+            };
             await producer.send({
                 topic: 'submit-queue',
-                messages: [
-                    //{ value: 'sending source file to be stored' },
-                    { value: sourcefile },
-                    { value: 'source file' }
-    
-                ]
+                messages:[{ value: JSON.stringify(message) }]
             });
             await producer.disconnect();
         }
