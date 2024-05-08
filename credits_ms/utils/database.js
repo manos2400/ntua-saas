@@ -9,7 +9,13 @@ const poolConfig = {
     connectionLimit: 100,
 }
 
-const pool = new Pool(poolConfig);
+let poolInstance;
 
+function getPool(){
+    if(!poolInstance){
+        poolInstance = new Pool(poolConfig);
+    }
+    return poolInstance;
+}
 
-module.exports = { pool };
+module.exports = { getPool };
