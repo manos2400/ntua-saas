@@ -86,6 +86,13 @@ def read_json_file(file_path):
     with open(file_path, 'r') as file:
         data = json.load(file)
         return data.get('Locations', [])  # Access the "Locations" array
+    
+def read_json_string(json_string):
+    """Read JSON string."""
+    data = json.loads(json_string)
+    data = json.loads(data)
+
+    return data.get('Locations', [])
 
 def main():
     """Entry point of the program."""
@@ -98,7 +105,9 @@ def main():
     depot = int(sys.argv[3])
     max_distance = int(sys.argv[4])
     # Read JSON file
-    locations = read_json_file(input_file)
+    data = sys.stdin.read()
+
+    locations = read_json_string(data)
 
     # Instantiate the data problem.
     data = create_data_model(locations, num_vehicles, depot)
@@ -148,12 +157,8 @@ def main():
     # Print solution on console.
     if solution:
         print_solution(data, manager, routing, solution)
-        with open("./result.txt", 'w') as file:
-            file.write("omg it worked!")
     else:
         print("No solution found !")
-        with open("./result.txt", 'w') as file:
-            file.write("omg it didn't work!")
-print("fuck you ")
+
 
 main()

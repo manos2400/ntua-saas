@@ -10,6 +10,8 @@ exports.send_submition = async (sourcefile,type) => {
             const message = {
                 data: messageData,
                 solver_id: sourcefile[1],
+                dataset_name: sourcefile[2],
+                dataset_description: sourcefile[3],
                 type: 'metadata'
             };
             await producer.send({

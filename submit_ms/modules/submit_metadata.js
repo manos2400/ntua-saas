@@ -6,6 +6,8 @@ const { validate_solver_json } = require('../utils/validate_first_solver.js');
 exports.submit_metadata = async (req, res, next) => {
     try {
         var solver_id = req.body.solver_id;
+        var dataset_name = req.body.name;
+        var dataset_description = req.body.description;
         // Check if file is uploaded
         if (!req.file) {
             return res.status(400).json({ error: 'No file uploaded' });
@@ -22,7 +24,7 @@ exports.submit_metadata = async (req, res, next) => {
         const fileContent = fs.readFileSync(req.file.path);
         id = JSON.stringify(solver_id)
         // Send file contents to Kafka topic
-        await send_submition([fileContent, solver_id], "metadata");
+        await send_submition([fileContent, solver_id,dataset_name.toString(),dataset_description.toString()], "metadata");
 
         // Remove uploaded file
         fs.unlinkSync(req.file.path);
