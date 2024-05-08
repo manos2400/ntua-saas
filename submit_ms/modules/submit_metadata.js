@@ -1,7 +1,7 @@
 const fs = require('fs');
 const { send_submition } = require('../kafka/producer.js');
 const { validate_solver_json } = require('../utils/validate_first_solver.js');
-
+const { generateSubmissionID} = require('../utils/unique_id_producer.js');
 
 exports.submit_metadata = async (req, res, next) => {
     try {
@@ -24,7 +24,8 @@ exports.submit_metadata = async (req, res, next) => {
         const fileContent = fs.readFileSync(req.file.path);
         id = JSON.stringify(solver_id)
         // Send file contents to Kafka topic
-        await send_submition([fileContent, solver_id,dataset_name.toString(),dataset_description.toString()], "metadata");
+        metadata_id = generateSubmissionID() + "metadata";
+        await send_submition([fileContent, solver_id,dataset_name.toString(),dataset_description.toString(),metadata_id], "metadata");
 
         // Remove uploaded file
         fs.unlinkSync(req.file.path);

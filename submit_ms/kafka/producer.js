@@ -12,6 +12,7 @@ exports.send_submition = async (sourcefile,type) => {
                 solver_id: sourcefile[1],
                 dataset_name: sourcefile[2],
                 dataset_description: sourcefile[3],
+                metadata_id: sourcefile[4],
                 type: 'metadata'
             };
             await producer.send({
@@ -23,9 +24,11 @@ exports.send_submition = async (sourcefile,type) => {
         
         else{
             await producer.connect();
-            const messageData = sourcefile.toString();
+            const messageData = sourcefile[0].toString();
             const message = {
                 data: messageData,
+                name: sourcefile[1],
+                extension: sourcefile[2],
                 type: 'sourcefile'
             };
             await producer.send({

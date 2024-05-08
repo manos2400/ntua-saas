@@ -11,7 +11,7 @@ db.serialize(() => {
         solver_blob_data BLOB
     )`)
     db.run(`CREATE TABLE IF NOT EXISTS Input_data (
-        dataset_id INTEGER PRIMARY KEY,
+        dataset_id TEXT PRIMARY KEY,
         dataset_name TEXT,
         dataset_description TEXT,
         input_data TEXT,

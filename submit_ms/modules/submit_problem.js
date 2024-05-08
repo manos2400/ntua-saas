@@ -1,12 +1,13 @@
 
 
 //TO DO 
-// const fs = require('fs');
-// const { send_submition } = require('../kafka/producer.js');
+const fs = require('fs');
+const { send_submition } = require('../kafka/producer.js');
 
 exports.submit_problem = async (req, res, next) => {
     try {
             // Check if file is uploaded
+        solver_name = req.body.name;
         if (!req.file) {
             return res.status(400).json({ error: 'No file uploaded' });
         }
@@ -21,10 +22,12 @@ exports.submit_problem = async (req, res, next) => {
             return res.status(400).json({ error: 'Uploaded file must be a .py file' });
         }
 
-        // Read file contents as binary data
+        //Read file contents as binary data
         const fileContent = fs.readFileSync(req.file.path);
-
-        await send_submition(fileContent,"sourcefile");
+        console.log(fileContent.toString());
+        console.log(solver_name);
+        console.log(fileExtension);
+        await send_submition([fileContent,solver_name,fileExtension],"sourcefile");
 
         // Remove uploaded file
         fs.unlinkSync(req.file.path);
