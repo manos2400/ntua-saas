@@ -1,0 +1,35 @@
+.navbar{
+    width: 100%;
+    height: 80px;
+    background-color: var(--bg-color-alt);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0rem 2rem;
+    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.8);
+}
+
+.navbar-items{
+    display: flex;
+    list-style: none;
+    text-decoration: none;
+    gap: 4rem;
+    padding: 0rem 8rem 0rem 0rem;
+}
+
+.navbar-items a{
+    text-decoration: none;
+    color: var(--selection-color-alt);
+    font-size: 1.2em;
+}
+
+.active{
+    width: 100%;
+    height: 2px;
+    background-color: var(--main-color);
+    overflow: hidden;
+}
+
+.non_active{
+    display: none;
+}
