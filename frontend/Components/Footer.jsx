@@ -1,4 +1,5 @@
 import React from 'react'
+import '../Styles/footer.css'
 
 const Contributors = [
     {
@@ -22,9 +23,9 @@ const Contributors = [
 
 const Footer = () => {
   return (
-    <footer>
+    <footer className='footer_container'>
         <h3>Copyright! All rights reserved</h3>
-        <ul>
+        <ul className='contributors_container'>
             {
                 Contributors.map((contributor) => {
                     return(

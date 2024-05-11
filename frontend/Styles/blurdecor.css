@@ -1,0 +1,95 @@
+.mainlowleft{
+    position: absolute;
+    left: -480px;
+    background-color: var(--main-color);
+    width: 600px;
+    height: 700px;
+    z-index: 2;
+    border-radius: 0px 20px 20px 0px;
+    filter: blur(400px);
+    overflow: hidden;
+}
+
+.mainlowright{
+    position: absolute;
+    right: -480px;
+    background-color: var(--main-color);
+    width: 600px;
+    height: 700px;
+    z-index: 2;
+    border-radius: 0px 20px 20px 0px;
+    filter: blur(200px);
+    overflow: hidden;
+}
+
+.mainhighright{
+    position: absolute;
+    right: -480px;
+    background-color: var(--main-color);
+    width: 1000px;
+    height: 700px;
+    z-index: 2;
+    border-radius: 0px 20px 20px 0px;
+    filter: blur(200px);
+    overflow: hidden;
+}
+
+.mainhighleft{
+    position: absolute;
+    left: -480px;
+    background-color: var(--main-color);
+    width: 1000px;
+    height: 700px;
+    z-index: 2;
+    border-radius: 0px 20px 20px 0px;
+    filter: blur(200px);
+    overflow: hidden;
+}
+
+.altlowleft{
+    position: absolute;
+    left: -480px;
+    background-color: var(--selection-color-alt);
+    width: 600px;
+    height: 700px;
+    z-index: 2;
+    border-radius: 0px 20px 20px 0px;
+    filter: blur(400px);
+    overflow: hidden;
+}
+
+.altlowright{
+    position: absolute;
+    right: -480px;
+    background-color: var(--selection-color-alt);
+    width: 500px;
+    height: 700px;
+    z-index: 2;
+    border-radius: 0px 20px 20px 0px;
+    filter: blur(400px);
+    
+}
+
+.althighleft{
+    position: absolute;
+    left: -480px;
+    background-color: var(--selection-color-alt);
+    width: 1000px;
+    height: 700px;
+    z-index: 2;
+    border-radius: 0px 20px 20px 0px;
+    filter: blur(200px);
+    overflow: hidden;
+}
+
+.althighright{
+    position: absolute;
+    right: -480px;
+    background-color: var(--selection-color-alt);
+    width: 1000px;
+    height: 700px;
+    z-index: 2;
+    border-radius: 0px 20px 20px 0px;
+    filter: blur(800px);
+    overflow: hidden;
+}

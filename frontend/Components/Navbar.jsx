@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Image from 'next/image'
 import Logo from '../public/SolveMyProbLogo.svg'
 import Link from 'next/link';
@@ -38,24 +38,6 @@ const navbarItems = [
 
 
 const Navbar = () => {
-    
-    const [activeRoute, setActiveRoute] = useState(0);
-    
-    useEffect(() =>{
-        navbarItems[activeRoute].active = true;
-    }, [])
-    
-    const onNavItemClick = (id) =>{
-        if(activeRoute === id){
-
-        }
-        else{
-            navbarItems[id].active = true;
-            navbarItems[activeRoute].active = false;
-            setActiveRoute(id);
-        }
-    }
-
 
     return (
     <nav className='navbar'>
@@ -64,10 +46,9 @@ const Navbar = () => {
             {
                 navbarItems.map((item) => {
                     return(
-                        <li key={item.id} onClick={() => onNavItemClick(item.id)}>
+                        <li key={item.id}>
                             <Link href={item.href}>
                                 <span>{item.title}</span>
-                                <div className={item.active ? 'active' : 'non_active'}/>
                             </Link>
                         </li>
                     )
