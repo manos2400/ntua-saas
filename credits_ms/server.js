@@ -36,7 +36,7 @@ const creditsRoute = require('./routes/getCredits');
 app.use('/', creditsRoute);
 
 
-const PORT = 9876;
+const PORT = 4003;
 
 app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}!`);
