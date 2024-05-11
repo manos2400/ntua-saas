@@ -1,4 +1,5 @@
 import React from 'react'
+import '../Styles/input_box.css'
 
 const inputList = [
     {
@@ -22,9 +23,9 @@ const inputList = [
 
 const InputBox = () => {
   return (
-    <section>
+    <section className='input_container'>
         <h2>title</h2>
-        <ul>
+        <ul className='input_items'>
             {
                 inputList.map((item) => {
                     return(
