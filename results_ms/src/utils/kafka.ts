@@ -1,6 +1,6 @@
 import {Consumer, Kafka, Producer} from 'kafkajs';
 import chalk from "chalk";
-
+import 'dotenv/config';
 export default class KafkaClient {
     private client: Kafka;
     private producer: Producer;
@@ -8,7 +8,7 @@ export default class KafkaClient {
     constructor() {
         this.client = new Kafka({
             clientId: 'results-ms',
-            brokers: ['localhost:9093']
+            brokers: [`${process.env.KAFKA_BROKER}`]
         });
         this.producer = this.client.producer();
         this.consumer = this.client.consumer({ groupId: 'result-group' });

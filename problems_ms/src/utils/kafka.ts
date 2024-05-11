@@ -8,7 +8,7 @@ export default class KafkaClient {
     constructor() {
         this.client = new Kafka({
             clientId: 'problems-ms',
-            brokers: ['localhost:9092']
+            brokers: [`${process.env.KAFKA_BROKER}`]
         });
         this.producer = this.client.producer();
         this.consumer = this.client.consumer({ groupId: 'ms-group' });
