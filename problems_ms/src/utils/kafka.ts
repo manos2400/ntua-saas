@@ -11,7 +11,7 @@ export default class KafkaClient {
             brokers: [`${process.env.KAFKA_BROKER}`]
         });
         this.producer = this.client.producer();
-        this.consumer = this.client.consumer({ groupId: 'ms-group' });
+        this.consumer = this.client.consumer({ groupId: 'problems-group' });
     }
 
     async produce(topic: string, messages: any[]) {

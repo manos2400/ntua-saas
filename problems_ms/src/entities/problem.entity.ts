@@ -1,5 +1,4 @@
 import {Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
-import {Result} from "./result.entity";
 import {Dataset} from "./dataset.entity";
 import {Metadata} from "./metadata.entity";
 
@@ -32,7 +31,4 @@ export class Problem {
     @OneToMany(() => Metadata, metadata => metadata.problem, { cascade: true })
     metadata: Metadata[]; // Arguments for running the solver (ex. num_vehicles, depot, max_distance)
 
-    @OneToOne(() => Result, result => result.problem, { cascade: true })
-    @JoinColumn()
-    result: Result;
 }

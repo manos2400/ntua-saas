@@ -8,7 +8,7 @@ import {Metadata} from "../entities/metadata.entity";
 
 export const getAllProblems = async (req: Request, res: Response) => {
     // get all problems
-    const problems = await database.getRepository(Problem).find({relations: ['result', 'datasets', 'metadata']});
+    const problems = await database.getRepository(Problem).find({relations: ['datasets', 'metadata']});
     res.json(problems);
 }
 
@@ -17,7 +17,7 @@ export const getProblem = async (req: Request, res: Response) => {
     const problemId : number = parseInt(req.params.id);
     const problem = await database.getRepository(Problem).findOne({
         where: { id: problemId },
-        relations: ['result', 'datasets', 'metadata']
+        relations: ['datasets', 'metadata']
     });
     if (!problem) {
         res.status(404).json({ message: 'Problem not found!' });
@@ -31,7 +31,7 @@ export const deleteProblem = async (req: Request, res: Response) => {
     const problemId : number = parseInt(req.params.id);
     const problem = await database.getRepository(Problem).findOne({
         where: {id: problemId},
-        relations: ['result', 'datasets', 'metadata']
+        relations: ['datasets', 'metadata']
     });
     if (!problem) {
         res.status(404).json({ message: 'Problem not found!' });
@@ -40,9 +40,7 @@ export const deleteProblem = async (req: Request, res: Response) => {
     await database.getRepository(Dataset).delete({ problem: { id: problemId } });
     await database.getRepository(Metadata).delete({ problem: { id: problemId } });
     await database.getRepository(Problem).delete({ id: problemId });
-    if (problem.result) {
-        await database.getRepository(Result).delete({ id: problem.result.id });
-    }
+
     // Notify other microservices that the problem was deleted
     await kafka.produce('problem-delete', [{ value: JSON.stringify({ id: problemId }) }]);
     res.json({ message: 'Problem deleted!' });
