@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import * as problemController from '../controllers/problem.controller';
+import * as resultController from '../controllers/result.controller';
 import { getStatus} from "../controllers/status.controller";
 
 const app = express();
@@ -16,9 +16,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.get('/status', getStatus);
-app.get('/problems', problemController.getAllProblems);
-app.get('/problems/:id', problemController.getProblem);
-
-app.delete('/problems/:id', problemController.deleteProblem);
+app.get('/results/:id', resultController.getResult);
 
 export default app;

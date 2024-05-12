@@ -1,7 +1,7 @@
 {
-  "name": "problems-ms",
+  "name": "results_ms",
   "version": "1.0.0",
-  "description": "Microservice to update and display the problems list.",
+  "description": "Microservice that gets the generated results",
   "main": "dist/service.js",
   "scripts": {
     "build": "tsc",
@@ -9,7 +9,7 @@
     "start": "node dist/service.js"
   },
   "keywords": [],
-  "author": "Kolydakis Manos",
+  "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
