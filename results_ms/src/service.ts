@@ -58,4 +58,6 @@ database.initialize().then(async () => {
                 console.info(chalk.green('Result deleted!'));
             }
         });
+}).catch((error) => {
+    console.error(chalk.red('Error: ' + error));
 });

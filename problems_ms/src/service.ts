@@ -59,4 +59,6 @@ database.initialize().then(async () => {
                 console.info(chalk.green('Result saved!'));
             }
         });
-})
+}).catch((error) => {
+    console.error(chalk.red('Error: ' + error));
+});

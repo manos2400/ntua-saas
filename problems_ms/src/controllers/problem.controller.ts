@@ -2,7 +2,6 @@ import {Request, Response} from "express";
 import { Problem } from "../entities/problem.entity";
 import { database } from "../utils/database";
 import {kafka} from "../service";
-import {Result} from "../entities/result.entity";
 import {Dataset} from "../entities/dataset.entity";
 import {Metadata} from "../entities/metadata.entity";
 
