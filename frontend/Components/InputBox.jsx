@@ -1,5 +1,5 @@
 import React from 'react'
-import '../Styles/input_box.css'
+import '../Styles/submitform.css'
 
 const inputList = [
     {
