@@ -8,9 +8,9 @@ import {Result} from "./entities/result.entity";
 export const kafka = new KafkaClient();
 const PORT = process.env.PORT || 3001;
 database.initialize().then(async () => {
-    console.log(chalk.blueBright('Database connected!'));
+    console.info(chalk.blueBright('Database connected!'));
     app.listen(PORT, () => {
-        console.log(chalk.blueBright('Server running on port ' + PORT));
+        console.info(chalk.blueBright('Server running on port ' + PORT));
     });
         await kafka.consume(['solved-problems', 'problem-delete'], async (topic, message) => {
             if(topic == 'solved-problems') {
@@ -28,15 +28,22 @@ database.initialize().then(async () => {
                     console.error(chalk.red(`solved-problems: Result already exists for problem with id ${problemID}`));
                     return;
                 }
+                // TODO: Format the output as needed
                 // save to database
                 const newResult = database.getRepository(Result).create({ problem_id: problemID, output });
                 await database.getRepository(Result).save(newResult);
-                console.log(chalk.green('New result saved!'));
+                console.info(chalk.green('New result saved!'));
+                // Notify other microservices that the problem was solved
+                const res = {
+                    problemID: problemID,
+                    output: output
+                }
+                await kafka.produce('result-queue', [{ value: JSON.stringify(res) }]);
             } else if (topic == 'problem-delete') {
                 // parse json message
                 const {id} = JSON.parse(message.value.toString());
                 if (!id) {
-                    console.error(chalk.red('problem-delete: Message must have an id'));
+                    console.info(chalk.red('problem-delete: Message must have an id'));
                     return;
                 }
                 // delete from database
@@ -44,11 +51,11 @@ database.initialize().then(async () => {
                     where: { problem_id: id }
                 });
                 if (!result) {
-                    console.error(chalk.red(`problem-delete: Result not found for problem with id ${id}`));
+                    console.info(chalk.red(`problem-delete: Result not found for problem with id ${id}`));
                     return;
                 }
                 await database.getRepository(Result).delete(result);
-                console.log(chalk.green('Result deleted!'));
+                console.info(chalk.green('Result deleted!'));
             }
         });
-})
+});
