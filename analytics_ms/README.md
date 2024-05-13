@@ -29,25 +29,27 @@ Available endpoints (GET):
 // TODO
 ```
 - `/analytics/:problemId` - shows analytics about a specific problem, examples:
-```json
-// /analytics/abc
-{
-    "message":"Problem id must be a number!"
-}
-
-// /analytics/500
-{
-    "message":"Problem not found!"
-}
-
-// /analytics/1
-{
-    "id":1,
-    "description":"Random problem 0",
-    "solver":"solver0",
-    "submitted":"2024-05-13T16:13:44.093Z",
-    "finished":"2024-05-13T16:25:33.886Z",
-    "execTime":709793,
-    "execTimeHR":"11 minutes 49 seconds"
-}
-```
+    - /analytics/abc
+    ```json
+    {
+        "message":"Problem id must be a number!"
+    }
+    ```
+    - /analytics/500
+    ```json
+    {
+        "message":"Problem not found!"
+    }
+    ```
+    - /analytics/1
+    ```json
+    {
+        "id":1,
+        "description":"Random problem 0",
+        "solver":"solver0",
+        "submitted":"2024-05-13T16:13:44.093Z",
+        "finished":"2024-05-13T16:25:33.886Z",
+        "execTime":709793,
+        "execTimeHR":"11 minutes 49 seconds"
+    }
+    ```
