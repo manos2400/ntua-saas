@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
-const router = express.Router();
 
 app.use(cors());
 
@@ -15,8 +14,14 @@ const analyticsRoutes = require('./controllers/analytics');
 const resultRoutes = require('./controllers/results');
 
 app.use('/solver_api/credits', creditRoutes);
-app.use('/solver_api/submitProblem', submitProblemRoutes);
-app.use('/solver_api/analytics', analyticsRoutes);
-app.use('/solver_api/results', resultRoutes);
+// app.use('/solver_api/submitProblem', submitProblemRoutes);
+// app.use('/solver_api/analytics', analyticsRoutes);
+// app.use('/solver_api/results', resultRoutes);
 
-app.use((req, res, next) => {res.status(404),json({message: 'Endpoint not found'})});
+app.use((req, res, next) => {res.status(404).json({message: 'Endpoint not found'})});
+
+const PORT = 3001;
+
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});

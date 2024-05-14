@@ -1,7 +1,30 @@
 body{
-  height: 100%;
+  min-height: 100%;
+  background-color: var(--bg-color);
+  color: white;
+  position: relative;
+  padding-bottom: 240px;
+  
 }
 
 html{
   height: 100%
+}
+
+:root{
+  --main-color: #533946;
+  --selection-color: #e6d1b4;
+  --bg-color: #0f2c33;
+  --bg-color-alt: #21616a;
+  --selection-color-alt: #dfc578;
+}
+
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a{
+  text-decoration: none;
 }

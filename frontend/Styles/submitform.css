@@ -1,0 +1,121 @@
+.btn{
+    padding: 0.5rem;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    background-color: var(--main-color);
+    box-shadow: 0px 0px 8px 0px rgba(255,255,255,0.4);
+    transition: all ease 0.2s;
+}
+
+.btn:hover{
+    transform: scale(1.02);
+    cursor: pointer;
+}
+
+.btn:active{
+    transform: scale(0.98);
+}
+
+
+.input_container{
+    display: flex;
+    width: 100%;
+    height: 400px;
+    flex-direction: column;
+    gap: 1rem;
+    border: 1px solid white;
+    border-radius: 20px;
+    padding: 1rem;
+}
+
+
+/* list of the metadata or inputs */
+.input_items{
+    list-style: none;
+    display: flex;
+    flex-direction: column;    
+}
+
+/* items or values of a specific input record */
+.input_items li{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    /* border: 1px solid white;     */
+}
+
+.input_items li p{
+    position: relative;
+}
+
+.input_items li p::after{
+    content: '';
+    background-color: red;
+    position: absolute;
+    width: 100%;
+    height: 2px;
+}
+
+
+
+.submit_container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    position: relative;
+    overflow-x: clip;
+}
+
+.inputs_list{
+    display: flex;   
+    width: 100%;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    z-index: 6;
+}
+
+.solver_select{
+    width: 50%;
+    margin: 0 auto 2rem auto;
+    padding: 0.5rem;
+    border-radius: 12px;
+    color: white;
+    background-color: var(--main-color);
+    border: none;
+    box-shadow: 0px 0px 10px 0px rgba(255,255,255, 0.4);
+    z-index: 6;
+}
+
+.submit_buttons{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+    gap: 4rem;
+    z-index: 6;
+}
+
+.drag-drop_container{
+    background: var(--main-color);
+    border-radius: 8px;
+    width: 360px;
+    height: 100px;
+    padding: 2rem;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    margin: 2rem 0;
+    border: 2px solid var(--selection-color-alt);
+    box-shadow: -20px 4px 100px 0px rgba(255,255,255,0.25);
+    
+}
+
+.filename{
+    color: rgb(32, 214, 32);
+    text-align: center;
+}
