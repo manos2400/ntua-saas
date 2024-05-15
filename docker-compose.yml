@@ -106,7 +106,7 @@ services:
     ports:
       - 3002:3002
     environment:
-      - PORT=3001
+      - PORT=3002
       - DB_HOST=analytics-db
       - KAFKA_BROKER=kafka:9092
       - DB_USER=saas
