@@ -10,16 +10,16 @@ export const getLog = async (req: Request, res: Response) => {
 
     // create new object to return that will contain property executionTime
     const prob2 = problems.map(problem => {
-        const execTime = timeDiff(problem.timestampStart, problem.timestampEnd);
-        const execTimeHR = timeFormat(execTime); // Human Readable
+        //const execTime = timeDiff(problem.timestampStart, problem.timestampEnd);
+        //const execTimeHR = timeFormat(execTime); // Human Readable
         return {
             id: problem.id,
             description: problem.description,
-            solver: problem.solver,
+            //solver: problem.solver,
             submitted: problem.timestampStart,
-            finished: problem.timestampEnd,
-            execTime,
-            execTimeHR
+            finished: problem.timestampEnd
+            //execTime,
+            //execTimeHR
         }
     });
 
