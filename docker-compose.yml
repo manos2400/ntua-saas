@@ -104,7 +104,7 @@ services:
       context: ./analytics_ms/
       target: analytics_ms
     ports:
-      - 3001:3001
+      - 3002:3002
     environment:
       - PORT=3001
       - DB_HOST=analytics-db
