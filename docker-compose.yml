@@ -1,0 +1,158 @@
+name: solve-my-problem
+services:
+  zookeeper:
+    restart: always
+    image: bitnami/zookeeper:latest
+    ports:
+      - 2181:2181
+    volumes:
+      - zookeeper-volume:/bitnami
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - saas
+  problems-db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: problems-ms-db
+      POSTGRES_USER: saas
+      POSTGRES_PASSWORD: saas2024
+    volumes:
+      - problems-db-data:/var/lib/postgresql/data
+    networks:
+      - saas
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  problems-ms:
+    build:
+      context: ./problems_ms/
+      target: problems_ms
+    ports:
+      - 3000:3000
+    environment:
+      - PORT=3000
+      - DB_HOST=problems-db
+      - KAFKA_BROKER=kafka:9092
+      - DB_USER=saas
+      - DB_PASS=saas2024
+      - DB_NAME=problems-ms-db
+    networks:
+      - saas
+    depends_on:
+      problems-db:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+  results-db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: results-ms-db
+      POSTGRES_USER: saas
+      POSTGRES_PASSWORD: saas2024
+    volumes:
+      - results-db-data:/var/lib/postgresql/data
+    networks:
+      - saas
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  results-ms:
+    build:
+      context: ./results_ms/
+      target: results_ms
+    ports:
+      - 3001:3001
+    environment:
+      - PORT=3001
+      - DB_HOST=results-db
+      - KAFKA_BROKER=kafka:9092
+      - DB_USER=saas
+      - DB_PASS=saas2024
+      - DB_NAME=results-ms-db
+    networks:
+      - saas
+    depends_on:
+      results-db:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+  analytics-db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: analytics-ms-db
+      POSTGRES_USER: saas
+      POSTGRES_PASSWORD: saas2024
+    volumes:
+      - analytics-db-data:/var/lib/postgresql/data
+    networks:
+      - saas
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  analytics-ms:
+    build:
+      context: ./analytics_ms/
+      target: analytics_ms
+    ports:
+      - 3001:3001
+    environment:
+      - PORT=3001
+      - DB_HOST=analytics-db
+      - KAFKA_BROKER=kafka:9092
+      - DB_USER=saas
+      - DB_PASS=saas2024
+      - DB_NAME=analytics-ms-db
+    networks:
+      - saas
+    depends_on:
+      results-db:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+  kafka:
+    restart: always
+    image: bitnami/kafka:latest
+    ports:
+      - 9093:9093
+    volumes:
+      - kafka-volume:/bitnami
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://localhost:9093
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
+    depends_on:
+      - zookeeper
+    networks:
+      - saas
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - saas
+# TO ADD : credits-ms and credits-db, submit-ms, frontend, generate-results-ms and generate-results-db
+volumes:
+  problems-db-data:
+  results-db-data:
+  analytics-db-data:
+  zookeeper-volume:
+  kafka-volume:
+networks:
+  saas:
+    name: saas
+    external: true
