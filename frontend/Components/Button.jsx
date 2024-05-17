@@ -1,5 +1,5 @@
 import React from 'react'
-import '@/Styles/button.css'
+import '@/Styles/submitform.css'
 
 const Button = ({title}) => {
   return (
