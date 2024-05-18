@@ -2,10 +2,11 @@
   
 ## TEAM 17
   
-  
-Περιγραφή - οδηγίες
-  
-Περιέχονται φάκελοι για 15 microservices. Ο αριθμός είναι εντελώς ενδεικτικός. Δημιουργήστε ακριβώς όσα απαιτούνται από τη λύση σας.
+## Description
+TODO
+
+## Installation and Running
+TODO
 
 ## Directories Overview
 
@@ -52,6 +53,10 @@
 - **/log**: get a list of all submitted problems
 
 
+## Project Routes
+> using the frontend host and port
+
+TODO
 
 
 
