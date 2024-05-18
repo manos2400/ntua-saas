@@ -10,7 +10,9 @@ const SubmitForm = () => {
     const [filename, setFileName] = useState('');
     const [acceptedFile, setAcceptedFile] = useState(null);
     const [metadata, setMetadata] = useState([]);
-    const [solver, setSolver] = useState('py');
+    const [solver, setSolver] = useState(1);
+    const [dataset_name, setDatasetName] = useState('');
+    const [dataset_description, setDatasetDescription] = useState('');
 
     useEffect(() => {
         setMetadata(new Array(3).fill(''));
@@ -43,13 +45,39 @@ const SubmitForm = () => {
     
     const onSubmit = async () => {
         console.log(acceptedFiles[0]);
+        if(acceptedFiles[0] === null){
+            alert('No file uploaded');
+        }
+        else{
+            let form = new FormData();
+            form.append('file', acceptedFiles[0]);
+            form.append('solver_id', solver);
+            form.append('name', dataset_name);
+            form.append('description', dataset_description);
+            form.append('num_vehicles', metadata[0]);
+            form.append('depot', metadata[1]);
+            form.append('max_distance', metadata[2]);
+
+    
+            fetch('http://localhost:3001/solver_api/submitProblem/newSubmission',{
+                method: 'post',
+                headers: {'Content-Type' : 'multipart/form-data'},
+                body: form
+            })
+            .then(response => console.log(response))
+          
+        }
+
     }
 
     const onCancel = async () =>{
         setFileName('');
         setAcceptedFile(null);
         setMetadata(new Array(3).fill(''));
+        setDatasetDescription('');
+        setDatasetName('');
     }
+
 
     const pyMetadata = [
         'Number of vehicles',
@@ -63,12 +91,30 @@ const SubmitForm = () => {
         setMetadata(arr);
     }
 
+    const onDatasetDescriptionChange = (event) => {
+        setDatasetDescription(event.target.value);
+    }
+
+    const onDatasetNameChange = (event) => {
+        setDatasetName(event.target.value);
+    }
+
   return (
     <section>
         <select className='solver_select'>
               <option>Python</option>
         </select>
         <h3>Input metadata parameters</h3>
+        <div className='metadata'>
+            <div>
+                <label>Dataset name</label>
+                <input value={dataset_name} onChange={onDatasetNameChange}/>
+            </div>
+            <div>
+                <label>Dataset description</label>
+                <input value={dataset_description} onChange={onDatasetDescriptionChange}/>
+            </div>
+        </div>
         <ul className='inputs_list'>
             {
                 pyMetadata.map((value, index) => {
