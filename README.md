@@ -3,103 +3,129 @@
 ## TEAM 17
   
 ## Description
+**solveMyProblem** is a SaaS application that enables users to address computationally intensive problems without the need for expensive specialized software or hardware.
+It utilizes Google OR-Tools to tackle a range of operational research challenges cost-effectively.
+
+The app was build using Node.js, React, Kafka and Docker.
+The architecture of the app is microservices-based using RESTful APIs for communication between the services.
+
+## Table of Contents
+- [Directories Overview](#directories-overview)
+- [Routes](#routes)
+- [Hosts and Ports](#hosts-and-ports)
+- [Installation and Usage](#installation-and-usage)
+  - [Installation from docker images](#installation-from-docker-images)
+  - [Installation from source code](#installation-from-source-code)
+  - [Usage](#usage)
+
+
+### Directories Overview
+
+- `\*_ms`: the microservices
+- `frontent`: UI for the project
+- `ai-log`: zip files with the logs of the AI models
+- `jmeter`: test plan file and results of stress testing using JMeter
+- `architecture`: Diagrams using Visual Paradigm
+
+### Routes
+> frontend routes use the frontend host and port, while every microservice route uses its own host and port
+
+#### Routes for credits_ms
+- `POST` request to add credits:
+    - *microservice route*: `/addCredits`
+    - *frontend route*: `/solver_api/credits/getCredits`
+- `GET` request to get credits:
+    - *microservice route*: `/getCredits`
+    - *frontend route*: `/solver_api/credits/getCredits`
+
+#### Routes for submit_ms
+- `GET` reuest to get microservice status:
+    - *microservice route*: `/status`
+    - *frontend route*: `/solver_api/submitProblem/status`
+- `POST` request to submit a problem:
+    - *microservice route*: `/submit_problem`
+    - *frontend route*: `/solver_api/submitProblem/submit_problem`
+- `POST` request to submit metadata:
+    - *microservice route*: `/submit_metadata`
+    - *frontend route*: `/solver_api/submitProblem/submit_metadata`
+
+#### Routes for generate_result_ms
+- `GET` request to get microservice status:
+    - *microservice route*: `/status`
+    - *frontend route*: `/solver_api/generateResults/status`
+- `GET` request to solve a problem:
+    - *microservice route*: `/solveproblem`
+    - *frontend route*: `/solver_api/generateResults/solveproblem`
+
+#### Routes for results_ms
+- `GET` request to get microservice status:
+    - *microservice route*: `/status`
+    - *frontend route*: `/solver_api/results/status`
+- `GET` request to get results for a problem:
+    - *microservice route*: `/results/:id`
+    - *frontend route*: `/solver_api/results/results/:id`
+
+#### Routes for problems_ms
+- `GET` request to get microservice status:
+    - *microservice route*: `/status`
+    - *frontend route*: `/solver_api/problems/status`
+- `GET` request to get all problems:
+    - *microservice route*: `/problems`
+    - *frontend route*: `/solver_api/problems/problems`
+- `GET` request to get a specific problem:
+    - *microservice route*: `/problems/:id`
+    - *frontend route*: `/solver_api/problems/problems/:id`
+- `DELETE` request to remove a specific problem:
+    - *microservice route*: `/problems/:id`
+    - *frontend route*: `/solver_api/problems/problems/:id`
+
+#### Routes for analytics_ms
+- `GET` request to get microservice status:
+    - *microservice route*: `/status`
+    - *frontend route*: `/solver_api/analytics/status`
+- `GET` request to get analytics for all problems:
+    - *microservice route*: `/analytics`
+    - *frontend route*: `/solver_api/analytics/analytics`
+- `GET` request to get analytics for a specific problem:
+    - *microservice route*: `/analytics/:id`
+    - *frontend route*: `/solver_api/analytics/analytics/:id`
+- `GET` request to get a list of all submitted problems:
+    - *microservice route*: `/log`
+    - *frontend route*: `/solver_api/analytics/log`
+
+### Hosts and Ports
+
+- `frontend`: localhost:TODO
+- `credits_ms`: localhost:4004
+- `submit_ms`: localhost:TODO
+- `generate_result_ms`: localhost:TODO
+- `results_ms`: localhost:4002
+- `problems_ms`: localhost:4000
+- `analytics_ms`: localhost:4003
+- `kafka`: localhost:9093
+- `zookeeper`: localhost:2181
+- `adminer`: localhost:8080
+
+
+
+## Installation and Usage
+
+You can chooose to install from the docker images or from the source code.
+
+### Installation from docker images
 TODO
 
-## Installation and Running
+
+### Installation from source code
 TODO
 
-## Directories Overview
 
-- **\*_ms**: the microservices
-- **frontent**: UI for the project
-- **ai-log**: zip files with the logs of the AI models
-- **architecture**: Diagrams using Visual Paradigm
-
-## Microservice Routes
-> using the microservices' own host and port
-
-### Routes for credits_ms
-
-- **/addCredits**: add credits
-- **/getCredits**: get credits
-
-### Routes for submit_ms
-
-- **/status**: get microservice status
-- **/submit_problem**: TODO
-- **/submit_metadata**: TODO
-
-### Routes for generate_result_ms
-
-- **/status**: get microservice status
-- **/solveproblem**: initiate the solving of a problem
-
-### Routes for results_ms
-
-- **/status**: get microservice status
-- **/results/:id**: get (formatted) results for a problem
-
-### Routes for problems_ms
-
-- **/status**: get microservice status
-- **/problems**: get lift of all problems
-- **/problems/:id**: get/remove (if GET or DELETE request) a specific problem
-
-### Routes for analytics_ms
-
-- **/status**: get microservice status
-- **/analytics**: get analytics for all problems
-- **/analytics/:id**: get analytics for a problem
-- **/log**: get a list of all submitted problems
+### Usage
+TODO
 
 
-## Project Routes
-> using the frontend host and port
-
-(TODO: example routes - update later - also update in jmeter if needed)
-
-### Routes for credits_ms
-- **(POST) /solver_api/credits/addCredits**: add credits
-- **(GET) /solver_api/credits/getCredits**: get credits
-
-### Routes for submit_ms
-- **(GET) /solver_api/submitProblem/status**: get microservice status
-- **(POST) /solver_api/submitProblem/submit_problem**: TODO
-- **(POST) /solver_api/submitProblem/submit_metadata**: TODO
-
-### Routes for generate_result_ms
-- **(GET) /solver_api/generateResults/status**: get microservice status
-- **(GET) /solver_api/generateResults/solveproblem**: initiate the solving of a problem
-
-### Routes for results_ms
-- **(GET) /solver_api/results/status**: get microservice status
-- **(GET) /solver_api/results/results/:id**: get (formatted) results for a problem
-
-### Routes for problems_ms
-- **(GET) /solver_api/problemlist/status**: get microservice status
-- **(GET) /solver_api/problemlist/problems**: get list of all problems
-- **(GET) /solver_api/problemlist/problems/:id**: get a specific problem
-- **(DELETE) /solver_api/problemlist/problems/:id**: remove a specific problem
-
-### Routes for analytics_ms
-- **(GET) /solver_api/analytics/status**: get microservice status
-- **(GET) /solver_api/analytics/analytics**: get analytics for all problems
-- **(GET) /solver_api/analytics/analytics/:id**: get analytics for a problem
-- **(GET) /solver_api/analytics/log**: get a list of all submitted problems
 
 
-## Hosts and Ports
-
-- **frontend**: localhost:TODO
-- **credits_ms**: localhost:4004
-- **submit_ms**: localhost:TODO
-- **generate_result_ms**: localhost:TODO
-- **results_ms**: localhost:4002
-- **problems_ms**: localhost:4000
-- **analytics_ms**: localhost:4003
-- **kafka**: localhost:9093
-- **zookeeper**: localhost:2181
-- **adminer**: localhost:8080
 
 
 
