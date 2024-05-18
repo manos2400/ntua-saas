@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3002;
 database.initialize().then(async () => {
     console.info(chalk.blueBright('Database connected!'));
 
-    await addDummyRecords(); // temporary, for testing
+    //await addDummyRecords(); // temporary, for testing
 
     app.listen(PORT, () => {
         console.info(chalk.blueBright('Server running on port ' + PORT));

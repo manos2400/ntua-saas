@@ -1,8 +1,6 @@
 # Analytics Microservice
 > shows analytics about problems
 
-*TODO: integrate statistics from 'solved-problems-queue' (if any)*
-
 - listens to `submit-queue` and `solved-problems-queue`
 - current setup for localhost:3002
 
@@ -89,7 +87,7 @@
     - /analytics/abc
     ```json
     {
-        "message":"Problem id must be a number!"
+        "message":"Problem abc not found!"
     }
     ```
     - /analytics/probl9nref
