@@ -155,6 +155,20 @@ services:
         condition: service_healthy
       kafka:
         condition: service_started
+  submit-ms:
+    build:
+        context: ./submit_ms/
+        target: submit_ms
+    ports:
+      - 4005:4005
+    environment:
+      - PORT=4005
+      - KAFKA_BROKER=kafka:9092
+    networks:
+      - saas
+    depends_on:
+      kafka:
+        condition: service_started
   kafka:
     restart: always
     image: bitnami/kafka:latest

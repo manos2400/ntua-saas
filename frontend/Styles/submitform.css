@@ -152,3 +152,24 @@
     color: rgb(32, 214, 32);
     text-align: center;
 }
+
+.metadata{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 6;
+    padding: 2rem;
+    gap: 2rem;
+}
+
+.metadata > div{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.metadata > div > input{
+    padding: 0.2rem;
+    border: none;
+    border-radius: 8px;
+}
