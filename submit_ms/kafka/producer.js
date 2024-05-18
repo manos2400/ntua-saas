@@ -2,10 +2,16 @@ const kafka = require('./kafka'); // Assuming you have your Kafka configuration 
 
 const producer = kafka.producer();
 
+producer.connect().then(() => {
+    console.log('Kafka producer connected');
+}).catch(error => {
+    console.error('Error connecting to Kafka producer:', error);
+});
+
 exports.send_submition = async (sourcefile,type) => {
     try {
         if (type === 'metadata') {
-            await producer.connect();
+            //await producer.connect();
             const messageData = JSON.parse(sourcefile[0].toString())
             const message = {
                 data: messageData,
@@ -19,11 +25,11 @@ exports.send_submition = async (sourcefile,type) => {
                 topic: 'submit-queue',
                 messages: [{ value: JSON.stringify(message) }]
             });
-            await producer.disconnect();
+            //await producer.disconnect();
         }
         
         else{
-            await producer.connect();
+            //await producer.connect();
             const messageData = sourcefile[0].toString();
             const message = {
                 data: messageData,
@@ -35,12 +41,24 @@ exports.send_submition = async (sourcefile,type) => {
                 topic: 'submit-queue',
                 messages:[{ value: JSON.stringify(message) }]
             });
-            await producer.disconnect();
+            //await producer.disconnect();
         }
 
     } catch (error) {
         console.error('Error producing messages:', error);
     }
+}
+
+exports.request_credits = async () => {
+    console.log("Requesting credits")
+    //await producer.connect();
+    await producer.send({
+        topic: 'test_creds',
+        messages: [
+            { value: 'check_credits' }
+          ]
+    });
+    //await producer.disconnect();
 }
 
 //produceMessages(); // for testing purposes

@@ -7,8 +7,7 @@ db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS Solver (
         solver_id INTEGER PRIMARY KEY,
         solver_name TEXT,
-        solver_description TEXT,
-        solver_blob_data BLOB
+        solver_description TEXT
     )`)
     db.run(`CREATE TABLE IF NOT EXISTS Input_data (
         dataset_id TEXT PRIMARY KEY,
