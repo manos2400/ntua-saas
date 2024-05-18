@@ -1,4 +1,4 @@
-FROM node:21.7 as credits_ms
+FROM node:20.13.0-alpine as credits_ms
 
 WORKDIR /app
 

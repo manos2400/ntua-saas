@@ -32,9 +32,9 @@ services:
       context: ./problems_ms/
       target: problems_ms
     ports:
-      - 3000:3000
+      - 4000:4000
     environment:
-      - PORT=3000
+      - PORT=4000
       - DB_HOST=problems-db
       - KAFKA_BROKER=kafka:9092
       - DB_USER=saas
@@ -68,9 +68,9 @@ services:
       context: ./results_ms/
       target: results_ms
     ports:
-      - 3001:3001
+      - 4002:4002
     environment:
-      - PORT=3001
+      - PORT=4002
       - DB_HOST=results-db
       - KAFKA_BROKER=kafka:9092
       - DB_USER=saas
@@ -104,9 +104,9 @@ services:
       context: ./analytics_ms/
       target: analytics_ms
     ports:
-      - 3002:3002
+      - 4003:4003
     environment:
-      - PORT=3002
+      - PORT=4003
       - DB_HOST=analytics-db
       - KAFKA_BROKER=kafka:9092
       - DB_USER=saas
@@ -115,7 +115,43 @@ services:
     networks:
       - saas
     depends_on:
-      results-db:
+      analytics-db:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+  credits-db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: credits-ms-db
+      POSTGRES_USER: saas
+      POSTGRES_PASSWORD: saas2024
+    volumes:
+      - credits-db-data:/var/lib/postgresql/data
+    networks:
+      - saas
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  credits-ms:
+    build:
+      context: ./credits_ms/
+      target: credits_ms
+    ports:
+      - 4004:4004
+    environment:
+      - PORT=4004
+      - KAFKA_BROKER=kafka:9092
+      - DB_HOST=credits-db
+      - DB_USER=saas
+      - DB_PASS=saas2024
+      - DB_NAME=credits-ms-db
+    networks:
+      - saas
+    depends_on:
+      credits-db:
         condition: service_healthy
       kafka:
         condition: service_started
@@ -145,11 +181,12 @@ services:
       - 8080:8080
     networks:
       - saas
-# TO ADD : credits-ms and credits-db, submit-ms, frontend, generate-results-ms and generate-results-db
+# TO ADD : submit-ms, frontend, generate-results-ms and generate-results-db
 volumes:
   problems-db-data:
   results-db-data:
   analytics-db-data:
+  credits-db-data:
   zookeeper-volume:
   kafka-volume:
 networks:

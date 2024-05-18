@@ -9,7 +9,7 @@ const handleRoute = async (req, res) => {
         const result = await client.query('SELECT credits FROM global_credits');
         const globalCreds = result.rows[0].credits;
         await client.release();
-        console.log(globalCreds);
+        console.debug(globalCreds);
         return res.json({ globalCreds });
     } catch (error) {
         console.error('Error fetching global credits:', error);
