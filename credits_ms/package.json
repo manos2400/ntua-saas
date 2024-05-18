@@ -6,9 +6,9 @@
     "start": "node service.js",
     "dev": "nodemon service.js"
   },
-  "author": "",
+  "author": "Konstantinos Perifanos",
   "license": "ISC",
-  "description": "",
+  "description": "Credits Microservice to store global Credits and charge",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",

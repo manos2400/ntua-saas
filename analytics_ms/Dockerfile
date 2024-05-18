@@ -12,6 +12,6 @@ COPY . .
 RUN pnpm run build
 RUN pnpm prune --prod
 
-EXPOSE 3002
+EXPOSE 4002
 
 CMD ["pnpm", "start"]

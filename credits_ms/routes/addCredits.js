@@ -10,7 +10,6 @@ const handleRoute = async (req, res) => {
         const result = await client.query(`
             UPDATE global_credits 
             SET credits = credits + $1 
-            WHERE credits_id = 1
             RETURNING credits
         `, [creds]);
         console.debug(result);
@@ -22,6 +21,6 @@ const handleRoute = async (req, res) => {
     }
 }
 
-router.post('/addCredits', handleRoute);
+router.put('/addCredits', handleRoute);
 
 module.exports = router;
