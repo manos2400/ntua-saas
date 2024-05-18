@@ -43,7 +43,7 @@ TODO
 
 - **/status**: get microservice status
 - **/problems**: get lift of all problems
-- **/problems/:id**: get a specific problem
+- **/problems/:id**: get/remove (if GET or DELETE request) a specific problem
 
 ### Routes for analytics_ms
 
@@ -77,9 +77,9 @@ TODO
 
 ### Routes for problems_ms
 - **(GET) /solver_api/problemlist/status**: get microservice status
-- **(GET) /solver_api/problemlist/problems**: get lift of all problems
+- **(GET) /solver_api/problemlist/problems**: get list of all problems
 - **(GET) /solver_api/problemlist/problems/:id**: get a specific problem
-- **(DELETE) /solver_api/problemlist/problems/:id**: get a specific problem
+- **(DELETE) /solver_api/problemlist/problems/:id**: remove a specific problem
 
 ### Routes for analytics_ms
 - **(GET) /solver_api/analytics/status**: get microservice status
