@@ -2,7 +2,7 @@ const kafka = require('./kafka'); // Assuming you have your Kafka configuration 
 
 const producer = kafka.producer();
 
-exports.send_solution = async (result_stuff,solverid,metadataid) => {
+exports.send_solution = async (result_stuff,solverid,metadataid,numVehicles,depot,maxDistance) => {
     try {
         await producer.connect();
         //const messageData = JSON.parse(sourcefile[0].toString())
@@ -10,6 +10,9 @@ exports.send_solution = async (result_stuff,solverid,metadataid) => {
             data: result_stuff.toString(),
             solver_id: solverid,
             metadata_id : metadataid,
+            num_vehicles: numVehicles,
+            depot: depot,
+            max_distance: maxDistance
         };
         await producer.send({
             topic: 'resultqueue',
