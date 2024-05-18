@@ -4,6 +4,7 @@ import chalk from "chalk";
 import 'dotenv/config';
 import { database } from "./utils/database";
 import {Result} from "./entities/result.entity";
+import formatOutput from "./utils/formatOutput";
 
 export const kafka = new KafkaClient();
 const PORT = process.env.PORT || 3001;
@@ -28,17 +29,17 @@ database.initialize().then(async () => {
                     console.error(chalk.red(`solved-problems: Result already exists for problem with id ${problemID}`));
                     return;
                 }
-                // TODO: Format the output as needed
+                // format output
+                const formattedResult = formatOutput(output);
                 // save to database
-                const newResult = database.getRepository(Result).create({ problem_id: problemID, output });
+                const newResult = database.getRepository(Result).create({
+                        problem_id: problemID,
+                        output: JSON.stringify(formattedResult)
+                    });
                 await database.getRepository(Result).save(newResult);
                 console.info(chalk.green('New result saved!'));
                 // Notify other microservices that the problem was solved
-                const res = {
-                    problemID: problemID,
-                    output: output
-                }
-                await kafka.produce('result-queue', [{ value: JSON.stringify(res) }]);
+                await kafka.produce('result-queue', [{ value: JSON.stringify(formattedResult) }]);
             } else if (topic == 'problem-delete') {
                 // parse json message
                 const {id} = JSON.parse(message.value.toString());

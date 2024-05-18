@@ -12,5 +12,7 @@ export const getResult = async (req: Request, res: Response) => {
         res.status(404).json({ message: 'Result not found for this problem!' });
         return;
     }
+    // parse json output
+    result.output = JSON.parse(result.output);
     res.json(result);
 }
