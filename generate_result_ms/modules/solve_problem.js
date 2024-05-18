@@ -8,9 +8,6 @@ exports.solve_problem = (req, res, next) => {
     const metadata_id = req.body.metadata_id;
     
     if(solver_id == 1){
-        const num_vehicles = req.body.num_vehicles;
-        const depot = req.body.depot;
-        const max_distance = req.body.max_distance;
 
         try {
             const jsonData = fetch_and_solve(metadata_id);

@@ -9,7 +9,7 @@ function fetch_and_solve(metadata_id) {
             console.error('Error opening database:', err.message);
         } else {
             // Query to fetch JSON data based on metadata_id
-            const query = `SELECT input_data FROM Input_data WHERE dataset_id = ?`;
+            const query = `SELECT * FROM Input_data WHERE dataset_id = ?`;
 
             // Execute the query with metadata_id parameter
             db.get(query, [metadata_id],(err, row) => {
@@ -18,7 +18,13 @@ function fetch_and_solve(metadata_id) {
                 
                 } else {
                     if (row) {
-                        executePythonScript(4,5,6,1,1,row.input_data);
+                        const jsonData = row.input_data;
+                        const solver_id = row.solver_id;
+                        const num_vehicles = row.num_vehicles;
+                        const depot = row.depot;
+                        const max_distance = row.max_distance;
+
+                        executePythonScript(num_vehicles,depot,max_distance,solver_id,metadata_id,row.input_data);
                     } else {
                         console.log("No data found in database")
                     }

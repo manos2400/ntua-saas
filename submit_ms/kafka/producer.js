@@ -19,6 +19,9 @@ exports.send_submition = async (sourcefile,type) => {
                 dataset_name: sourcefile[2],
                 dataset_description: sourcefile[3],
                 metadata_id: sourcefile[4],
+                num_vehicles: sourcefile[5],
+                depot: sourcefile[6],
+                max_distance: sourcefile[7],
                 type: 'metadata'
             };
             await producer.send({
