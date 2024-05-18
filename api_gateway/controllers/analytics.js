@@ -18,7 +18,7 @@ router.get('/analytics-log', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-router.get('/analytics', async (req, res) => {
+router.get('/generalAnalytics', async (req, res) => {
     try {
         const response = await axios.get('http://localhost:4003/analytics');
         res.json(response.data);
@@ -26,7 +26,7 @@ router.get('/analytics', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-router.get('/analytics/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
         const response = await axios.get('http://localhost:4003/analytics/:id');
         res.json(response.data);

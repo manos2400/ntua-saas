@@ -31,8 +31,9 @@ async function initDB() {
     // Insert initial value if table is empty
     const result = await client.query(`SELECT * FROM global_credits`);
     if(result.rows.length === 0){
-        await client.query(`INSERT INTO global_credits(credits) VALUES(0);`);
+        await client.query(`INSERT INTO global_credits(credits) VALUES(100);`);
     }
+    // await client.query(`INSERT INTO global_credits(credits) VALUES(100);`);
     await client.end();
 
     // Create pool

@@ -2,12 +2,12 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 
-router.get('/problems', async (req, res) => {
+router.get('/getProblems', async (req, res) => {
     try {
         const response = await axios.get('http://localhost:4000/problems');
         // res.json(response.data);
         console.log(response.data);
-        res.json('hi');
+        res.json({problems: response.data});
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
     }
