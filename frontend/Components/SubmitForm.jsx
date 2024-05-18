@@ -53,10 +53,17 @@ const SubmitForm = () => {
         </select>
         <ul className='inputs_list'>
             <li>
-                <InputBox />
+                <label>SOME</label>
+
+                <input />
             </li>
             <li>
-                <InputBox />
+                <label>SOME</label>
+                <input />
+            </li> 
+            <li>
+                <label>SOME</label>
+                <input />
             </li> 
         </ul>
         <div {...getRootProps()} className='drag-drop_container'>

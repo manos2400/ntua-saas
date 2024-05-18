@@ -12,8 +12,6 @@ const kafka = new Kafka({
 
 const consumer = kafka.consumer({groupId: 'credits_group'});
 
-const producer = kafka.producer();
-
 
 const run = async () => {
 
@@ -24,31 +22,8 @@ const run = async () => {
     await consumer.run({
         eachMessage: async ({ topic, partition, message }) => {
             const client = await getPool().connect();
-            const result = await client.query('SELECT credits FROM global_credits');
-            const globalCreds = result.rows[0].credits;
-            if(globalCreds >= 10){
-                await client.query('UPDATE global_credits SET credits = credits-10');
-                await client.release();
-                await producer.connect();
-                await producer.send({
-                    topic: 'credits_charge',
-                    messages: [
-                        {key: 'key1', value: 'charged', partition: 0}
-                    ]
-                })
-                await producer.disconnect();
-            }
-            else{
-                await client.release();
-                await producer.connect();
-                await producer.send({
-                    topic: 'credits_charge',
-                    messages: [
-                        {key: 'key1', value: 'no_credits', partition: 0}
-                    ]
-                })
-                await producer.disconnect();
-            }
+            await client.query('UPDATE global_credits SET credits = credits-10');
+            await client.release();
         }
     })
 }

@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+require('dotenv').config();
 let { getPool } = require('./utils/database');
 
 app.use(cors());
@@ -36,7 +37,7 @@ const creditsRoute = require('./routes/getCredits');
 app.use('/', creditsRoute);
 
 
-const PORT = 4003;
+const PORT = process.env.PORT || 4004
 
 app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}!`);
