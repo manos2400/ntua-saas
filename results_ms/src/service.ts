@@ -16,24 +16,31 @@ database.initialize().then(async () => {
         await kafka.consume(['solved-problems', 'problem-delete'], async (topic, message) => {
             if(topic == 'solved-problems') {
                 // parse json message
-                const {problemID, output} = JSON.parse(message.value.toString());
-                if (!problemID) {
+                const {id, data} = JSON.parse(message.value.toString());
+                if (!id) {
                     console.error(chalk.red('solved-problems: Message must have problemID'));
                     return;
                 }
                 // Check if result already exists
                 const result = await database.getRepository(Result).findOne({
-                    where: { problem_id: problemID }
+                    where: { problem_id: id }
                 });
                 if (result) {
-                    console.error(chalk.red(`solved-problems: Result already exists for problem with id ${problemID}`));
+                    console.error(chalk.red(`solved-problems: Result already exists for problem with id ${id}`));
                     return;
                 }
                 // format output
-                const formattedResult = formatOutput(output);
+                let formattedResult;
+                if(data.startsWith('No solution')) {
+                    formattedResult = {
+                        status: "No solution found"
+                    };
+                } else {
+                    formattedResult = formatOutput(data);
+                }
                 // save to database
                 const newResult = database.getRepository(Result).create({
-                        problem_id: problemID,
+                        problem_id: id,
                         output: JSON.stringify(formattedResult)
                     });
                 await database.getRepository(Result).save(newResult);

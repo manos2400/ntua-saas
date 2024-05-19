@@ -24,7 +24,6 @@ database.initialize().then(async () => {
                 }
 
                 // Translate data from submit-ms
-                const submission_id = submission.metadata_id;
                 const datasets = [{
                     name: submission.dataset_name,
                     description: submission.dataset_description,
@@ -34,22 +33,22 @@ database.initialize().then(async () => {
                 const metadata = [{
                     name: "num_vehicles",
                     type: "number",
-                    value: submission.num_vehicles,
+                    value: submission.parameters[0].num_vehicles,
                     description: "Number of vehicles"
                 }, {
                     name: "depot",
                     type: "string",
-                    value: submission.depot,
+                    value: submission.parameters[1].depot,
                     description: "Starting index"
                 }, {
                     name: "max_distance",
                     type: "number",
-                    value: submission.max_distance,
+                    value: submission.parameters[2].max_distance,
                     description: "Maximum distance"
                 }];
 
                 const problem = database.getRepository(Problem).create({
-                    id: submission_id,
+                    id: submission.id,
                     solver,
                     status: Status.PENDING,
                     datasets: datasets.map((dataset: { name: string, data: string }) => {
