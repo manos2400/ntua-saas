@@ -1,4 +1,3 @@
-//JUST TESTING
 
 const { Kafka } = require('kafkajs');
 

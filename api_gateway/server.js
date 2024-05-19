@@ -3,6 +3,7 @@ const cors = require('cors');
 
 const app = express();
 
+
 const corsOptions = {
     origin: '*', // Allow all -- TODO: update this later
     //origin: ['http://localhost:3001', 'http://localhost:3002'], // for example
@@ -11,8 +12,9 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({extended: true, limit: '100mb'}));
 app.use(express.json());
+
 
 const creditRoutes = require('./controllers/credits');
 const submitProblemRoutes = require('./controllers/submitProblem');

@@ -59,9 +59,8 @@ const SubmitForm = () => {
             form.append('max_distance', metadata[2]);
 
     
-            fetch('http://localhost:3001/solver_api/submitProblem/newSubmission',{
+            fetch('http://localhost:4005/submit_metadata',{
                 method: 'post',
-                headers: {'Content-Type' : 'multipart/form-data'},
                 body: form
             })
             .then(response => console.log(response))

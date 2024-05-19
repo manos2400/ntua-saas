@@ -50,7 +50,7 @@ const page = () => {
         return response.json()
       }
     })
-    .then(data => setProblems(data.problems))
+    .then(data => console.log(data))
     .catch(err => alert('Error: ' , err))
   }, [])
   

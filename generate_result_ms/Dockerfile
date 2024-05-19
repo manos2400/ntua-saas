@@ -1,4 +1,4 @@
-FROM node:20.13.0-alpine as submit_ms
+FROM node:20.13.0-alpine as generate_result_ms
 
 WORKDIR /app
  
@@ -8,6 +8,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 4005
+EXPOSE 4006
 
 CMD ["npm", "start"]

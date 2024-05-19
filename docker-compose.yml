@@ -169,6 +169,27 @@ services:
     depends_on:
       kafka:
         condition: service_started
+  generate-result-db:
+    image: nouchka/sqlite3:latest
+    restart: always
+    volumes:
+      - ./generate-result-db-data:/app/generate_result_ms/data
+    networks:
+      - saas
+  generate-result-ms:
+    build:
+      context: ./generate_result_ms/
+      target: generate_result_ms
+    ports:
+      - 4006:4006
+    environment:
+      - PORT=4006
+      - KAFKA_BROKER=kafka:9092
+    networks:
+      - saas
+    depends_on:
+      kafka:
+        condition: service_started
   kafka:
     restart: always
     image: bitnami/kafka:latest
@@ -201,6 +222,7 @@ volumes:
   results-db-data:
   analytics-db-data:
   credits-db-data:
+  generate-result-db-data:
   zookeeper-volume:
   kafka-volume:
 networks:

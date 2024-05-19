@@ -5,7 +5,7 @@ const axios = require('axios');
 
 router.post('/newSubmission', async (req,res) => {
     try {
-        const response = await axios.post('http://localhost:4005/submit_metadata', req.body, req.headers);
+        const response = await axios.post('http://localhost:4005/submit_metadata', req.body);
         console.log(response);
         res.status(200).json({success : "success"})
     } catch (error) {
