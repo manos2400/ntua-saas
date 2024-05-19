@@ -16,11 +16,20 @@ exports.add_metadata = (message) => {
     const timeRes = message.time_res || null;
     const status = message.status || null;
     const solverId = message.solver_id || null;
-    const dataset_id = message.metadata_id || null;
+    const dataset_id = message.id || null;
     
-    const numVehicles = message.num_vehicles ? parseInt(message.num_vehicles, 10) : null;
-    const depot = message.depot ? parseInt(message.depot, 10) : null;
-    const maxDistance = message.max_distance ? parseInt(message.max_distance, 10) : null;
+    // const numVehicles = message.num_vehicles ? parseInt(message.num_vehicles, 10) : null;
+    // const depot = message.depot ? parseInt(message.depot, 10) : null;
+    // const maxDistance = message.max_distance ? parseInt(message.max_distance, 10) : null;
+
+    const parameters = message.parameters || [];
+    const numVehiclesParam = parameters.find(param => param.hasOwnProperty('num_vehicles'));
+    const depotParam = parameters.find(param => param.hasOwnProperty('depot'));
+    const maxDistanceParam = parameters.find(param => param.hasOwnProperty('max_distance'));
+
+    const numVehicles = numVehiclesParam ? parseInt(numVehiclesParam.num_vehicles, 10) : null;
+    const depot = depotParam ? parseInt(depotParam.depot, 10) : null;
+    const maxDistance = maxDistanceParam ? parseInt(maxDistanceParam.max_distance, 10) : null;
 
     console.log(inputData)
 

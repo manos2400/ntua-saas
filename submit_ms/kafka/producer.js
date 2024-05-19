@@ -18,7 +18,7 @@ exports.send_submition = async (sourcefile,type) => {
                 solver_id: sourcefile[1],
                 dataset_name: sourcefile[2],
                 dataset_description: sourcefile[3],
-                metadata_id: sourcefile[4],
+                id: sourcefile[4],
                 parameters : [{num_vehicles:sourcefile[5]},{depot:sourcefile[6]},{max_distance:sourcefile[7]}],
                 type: 'metadata'
             };

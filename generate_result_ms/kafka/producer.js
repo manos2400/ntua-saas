@@ -9,10 +9,7 @@ exports.send_solution = async (result_stuff,solverid,metadataid,numVehicles,depo
         const message = {
             data: result_stuff.toString(),
             solver_id: solverid,
-            metadata_id : metadataid,
-            num_vehicles: numVehicles,
-            depot: depot,
-            max_distance: maxDistance
+            id : metadataid,
         };
         await producer.send({
             topic: 'resultqueue',

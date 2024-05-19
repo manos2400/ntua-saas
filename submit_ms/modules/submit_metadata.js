@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { send_submission,request_credits } = require('../kafka/producer.js');
+const { send_submition,request_credits } = require('../kafka/producer.js');
 const { validate_solver_json } = require('../utils/validate_first_solver.js');
 const { generateSubmissionID} = require('../utils/unique_id_producer.js');
 
@@ -33,7 +33,7 @@ exports.submit_metadata = async (req, res, next) => {
         // Send file contents to Kafka topic
         const metadata_id = generateSubmissionID();
         await request_credits();
-        await send_submission([
+        await send_submition([
             fileContent,
             solver_id,dataset_name.toString(),
             dataset_description.toString(),
