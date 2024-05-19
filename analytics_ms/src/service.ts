@@ -4,11 +4,9 @@ import chalk from "chalk";
 import { database, addDummyRecords } from "./utils/database";
 import { Problem } from "./entities/problem.entity";
 
-/* new file*/ 
-
 export const kafka = new KafkaClient();
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 4003;
 
 database.initialize().then(async () => {
     console.info(chalk.blueBright('Database connected!'));
@@ -19,12 +17,12 @@ database.initialize().then(async () => {
         console.info(chalk.blueBright('Server running on port ' + PORT));
     });
     
-    await kafka.consume(['submit-queue', 'solved-problems-queue'], async (topic, message) => {
+    await kafka.consume(['submit-queue', 'resultqueue'], async (topic, message) => {
         if(topic === 'submit-queue') {
             /* save problem when it is submitted,
-               because solved-problems-queue will not have solver info
+               because resultqueue will not have solver info
 
-               also add timestampStart and timestampEnd to measure execution time
+               also add timestampStart and timestampEnd for stats
             */
             // parse json message
             const {datasets, metadata, solver, description} = JSON.parse(message.value.toString());
@@ -37,32 +35,30 @@ database.initialize().then(async () => {
                 description, // save description for better readability
                 solver,
                 timestampStart: new Date().toISOString(),
-                timestampEnd: "",
-                output: ""
+                timestampEnd: ""
             });
             await database.getRepository(Problem).save(problem);
             console.log(chalk.green('New problem saved!'));
-        } else if(topic === 'solved-problems-queue') {
+        } else if(topic === 'resultqueue') {
 
             // parse json message
             const {problemID, output} = JSON.parse(message.value.toString());
             if (!problemID) {
-                console.error(chalk.red('solved-problems: Message must have problemID'));
+                console.error(chalk.red('resultqueue: Message must have problemID'));
                 return;
             }
             // get problem from database
             const problem = await database.getRepository(Problem).findOneBy({id: problemID});
             if (!problem) {
-                console.error(chalk.red(`solved-problems: Problem with id ${problemID} not found`));
+                console.error(chalk.red(`resultqueue: Problem with id ${problemID} not found`));
                 return;
             }
             if(problem.timestampEnd !== "") {
-                console.error(chalk.red(`solved-problems: Problem with id ${problemID} is not pending`));
+                console.error(chalk.red(`resultqueue: Problem with id ${problemID} is not pending`));
                 return;
             }
             // update timestampEnd (we dont need status, if timestampEnd is set, it is solved)
             problem.timestampEnd = new Date().toISOString();
-            problem.output = output;
             await database.getRepository(Problem).save(problem);
             console.info(chalk.green('Result saved!'));
         }

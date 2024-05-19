@@ -17,7 +17,4 @@ export class Problem {
     @Column()
     timestampEnd: string; // Timestamp when the problem was solved
 
-    @Column()
-    output: string; // Output of the solver (from generate result ms) - it should contain statistics
-
 }
