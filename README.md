@@ -97,8 +97,8 @@ The architecture of the app is microservices-based using RESTful APIs for commun
 
 - `frontend`: localhost:TODO
 - `credits_ms`: localhost:4004
-- `submit_ms`: localhost:TODO
-- `generate_result_ms`: localhost:TODO
+- `submit_ms`: localhost:4001
+- `generate_result_ms`: localhost:4005
 - `results_ms`: localhost:4002
 - `problems_ms`: localhost:4000
 - `analytics_ms`: localhost:4003
