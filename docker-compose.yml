@@ -160,9 +160,9 @@ services:
         context: ./submit_ms/
         target: submit_ms
     ports:
-      - 4005:4005
+      - 4001:4001
     environment:
-      - PORT=4005
+      - PORT=4001
       - KAFKA_BROKER=kafka:9092
     networks:
       - saas
@@ -181,9 +181,9 @@ services:
       context: ./generate_result_ms/
       target: generate_result_ms
     ports:
-      - 4006:4006
+      - 4005:4005
     environment:
-      - PORT=4006
+      - PORT=4005
       - KAFKA_BROKER=kafka:9092
     networks:
       - saas
