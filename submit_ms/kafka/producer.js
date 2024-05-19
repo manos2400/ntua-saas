@@ -8,7 +8,7 @@ producer.connect().then(() => {
     console.error('Error connecting to Kafka producer:', error);
 });
 
-exports.send_submition = async (sourcefile,type) => {
+exports.send_submission = async (sourcefile,type) => {
     try {
         if (type === 'metadata') {
             //await producer.connect();

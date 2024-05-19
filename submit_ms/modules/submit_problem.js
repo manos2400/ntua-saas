@@ -2,7 +2,7 @@
 
 //TO DO 
 const fs = require('fs');
-const { send_submition } = require('../kafka/producer.js');
+const { send_submission } = require('../kafka/producer.js');
 
 exports.submit_problem = async (req, res, next) => {
     try {
@@ -27,7 +27,7 @@ exports.submit_problem = async (req, res, next) => {
         console.log(fileContent.toString());
         console.log(solver_name);
         console.log(fileExtension);
-        await send_submition([fileContent,solver_name,fileExtension],"sourcefile");
+        await send_submission([fileContent,solver_name,fileExtension],"sourcefile");
 
         // Remove uploaded file
         fs.unlinkSync(req.file.path);

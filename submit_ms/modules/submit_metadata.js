@@ -1,17 +1,17 @@
 const fs = require('fs');
-const { send_submition,request_credits } = require('../kafka/producer.js');
+const { send_submission,request_credits } = require('../kafka/producer.js');
 const { validate_solver_json } = require('../utils/validate_first_solver.js');
 const { generateSubmissionID} = require('../utils/unique_id_producer.js');
 
 
 exports.submit_metadata = async (req, res, next) => {
     try {
-        var solver_id = req.body.solver_id;
-        var dataset_name = req.body.name;
-        var dataset_description = req.body.description;
-        var num_vehicles = req.body.num_vehicles;
-        var depot = req.body.depot;
-        var max_distance = req.body.max_distance;
+        const solver_id = req.body.solver_id;
+        const dataset_name = req.body.name;
+        const dataset_description = req.body.description;
+        const num_vehicles = req.body.num_vehicles;
+        const depot = req.body.depot;
+        const max_distance = req.body.max_distance;
         // Check if file is uploaded
         if (!req.file) {
             return res.status(400).json({ error: 'No file uploaded' });
@@ -30,11 +30,10 @@ exports.submit_metadata = async (req, res, next) => {
         }
 
         const fileContent = fs.readFileSync(req.file.path);
-        id = JSON.stringify(solver_id)
         // Send file contents to Kafka topic
-        metadata_id = generateSubmissionID() + "metadata";
+        const metadata_id = generateSubmissionID();
         await request_credits();
-        await send_submition([
+        await send_submission([
             fileContent,
             solver_id,dataset_name.toString(),
             dataset_description.toString(),
