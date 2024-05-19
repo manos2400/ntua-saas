@@ -4,7 +4,7 @@ import {Result} from "../entities/result.entity";
 
 export const getResult = async (req: Request, res: Response) => {
     // get result by id
-    const problemId : number = parseInt(req.params.id);
+    const problemId : string = req.params.id;
     const result = await database.getRepository(Result).findOne({
         where: { problem_id: problemId }
     });

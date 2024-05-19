@@ -21,8 +21,8 @@ The architecture of the app is microservices-based using RESTful APIs for commun
 
 ### Directories Overview
 
-- `\*_ms`: the microservices
-- `frontent`: UI for the project
+- `*_ms`: the microservices
+- `frontend`: UI for the project
 - `ai-log`: zip files with the logs of the AI models
 - `jmeter`: test plan file and results of stress testing using JMeter
 - `architecture`: Diagrams using Visual Paradigm
@@ -110,7 +110,7 @@ The architecture of the app is microservices-based using RESTful APIs for commun
 
 ## Installation and Usage
 
-You can chooose to install from the docker images or from the source code.
+You can choose to install from the docker images or from the source code.
 
 ### Installation from docker images
 TODO
