@@ -10,6 +10,9 @@ export class Dataset {
     name: string;
 
     @Column()
+    description: string;
+
+    @Column()
     data: string;
 
     @ManyToOne(() => Problem, problem => problem.datasets)

@@ -8,12 +8,16 @@ import {Metadata} from "../entities/metadata.entity";
 export const getAllProblems = async (req: Request, res: Response) => {
     // get all problems
     const problems = await database.getRepository(Problem).find({relations: ['datasets', 'metadata']});
+    if(problems.length === 0) {
+        res.status(404).json({ message: 'No problems found!' });
+        return;
+    }
     res.json(problems);
 }
 
 export const getProblem = async (req: Request, res: Response) => {
     // get problem by id
-    const problemId : number = parseInt(req.params.id);
+    const problemId : string = req.params.id;
     const problem = await database.getRepository(Problem).findOne({
         where: { id: problemId },
         relations: ['datasets', 'metadata']
@@ -27,7 +31,7 @@ export const getProblem = async (req: Request, res: Response) => {
 
 export const deleteProblem = async (req: Request, res: Response) => {
     // delete problem by id and its result if exists
-    const problemId : number = parseInt(req.params.id);
+    const problemId : string = req.params.id;
     const problem = await database.getRepository(Problem).findOne({
         where: {id: problemId},
         relations: ['datasets', 'metadata']

@@ -1,4 +1,4 @@
-import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, OneToMany, PrimaryColumn} from "typeorm";
 import {Dataset} from "./dataset.entity";
 import {Metadata} from "./metadata.entity";
 
@@ -9,11 +9,8 @@ export enum Status {
 
 @Entity()
 export class Problem {
-    @PrimaryGeneratedColumn()
-    id: number;
-
-    @Column()
-    description: string;
+    @PrimaryColumn()
+    id: string;
 
     @Column()
     solver: string; // Solver that will be used to solve the problem (ex. vrpSolver)

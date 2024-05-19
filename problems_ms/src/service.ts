@@ -17,14 +17,39 @@ database.initialize().then(async () => {
         await kafka.consume(['submit-queue', 'result-queue'], async (topic, message) => {
             if(topic === 'submit-queue') {
                 // parse json message
-                const {datasets, metadata, solver, description} = JSON.parse(message.value.toString());
-                if (!description || !solver || !datasets || !metadata) {
-                    console.error(chalk.red('submit-queue: Messages must have description, solver, at least one dataset and metadata'));
+                const submission = JSON.parse(message.value.toString());
+                if (!submission) {
+                    console.error(chalk.red('submit-queue: Message must be a valid JSON'));
                     return;
                 }
-                // save to database
+
+                // Translate data from submit-ms
+                const submission_id = submission.metadata_id;
+                const datasets = [{
+                    name: submission.dataset_name,
+                    description: submission.dataset_description,
+                    data: submission.data,
+                }]
+                const solver = submission.solver_id === "1" ? "vrpSolver" : "Another solver";
+                const metadata = [{
+                    name: "num_vehicles",
+                    type: "number",
+                    value: submission.num_vehicles,
+                    description: "Number of vehicles"
+                }, {
+                    name: "depot",
+                    type: "string",
+                    value: submission.depot,
+                    description: "Starting index"
+                }, {
+                    name: "max_distance",
+                    type: "number",
+                    value: submission.max_distance,
+                    description: "Maximum distance"
+                }];
+
                 const problem = database.getRepository(Problem).create({
-                    description,
+                    id: submission_id,
                     solver,
                     status: Status.PENDING,
                     datasets: datasets.map((dataset: { name: string, data: string }) => {
