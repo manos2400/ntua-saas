@@ -1,0 +1,40 @@
+.status_container{
+    background-color: rgba(0,0,0,0.4);
+    color: white;
+    padding: 1rem;
+    margin: 2rem 1rem 0rem 1rem;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(255,255,255,0.3);
+    z-index: 4;
+    backdrop-filter: blur(100px);
+}
+
+.status_container > div{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.status_container > div > button{
+    padding: 0.2rem 0.4rem;
+    font-size: 1.2em;
+    background-color: var(--main-color);
+    border: none;
+    color: var(--selection-color-alt);
+    border-radius: 4px;
+    transition: all ease 0.2s;
+}
+
+.status_container > div > button:hover{
+    box-shadow: 0px 0px 10px 0px rgba(255,255,255,0.4);
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.status_container > div > button:active{
+    transform: scale(0.98);
+}

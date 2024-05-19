@@ -1,0 +1,22 @@
+{
+  "name": "generate_result_ms",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js",
+    "database_init": "node ./utils/database.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "child_process": "^1.0.2",
+    "express": "^4.19.2",
+    "kafka-node": "^5.0.0",
+    "kafkajs": "^2.2.4",
+    "python3": "^0.0.1",
+    "sqlite3": "^5.1.7"
+  }
+}
