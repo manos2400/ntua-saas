@@ -37,6 +37,7 @@ import '@/Styles/problemlist.css'
 const page = () => {
 
   const [problems, setProblems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('http://localhost:3001/solver_api/problemlist/getProblems', {
@@ -50,34 +51,38 @@ const page = () => {
         return response.json()
       }
     })
-    .then(data => console.log(data))
+    .then(data => {
+      setProblems(data.problems);
+      console.log(data.problems);
+      setLoading(false);
+    })
     .catch(err => alert('Error: ' , err))
   }, [])
   
 
   return (
-    <main className='problemlist_container'>
-        <h1>Problems List</h1>
-        <div>
-          <p></p>
-        </div>
-        <ul className='problemlist'>
-        {
-            problems.map((problem) => {
-                return(
-                    <li key={problem.id}>
-                      <Problem problem={problem}/>
-                    </li>
-                )
-            })
-        }
-      </ul>
-      {
-        problems.length === 0
-        ? <h2>No Problems submitted</h2>
-        : <></>
-      }
-    </main>
+    !loading
+    ?   <main className='problemlist_container'>
+          <h1>Problems List</h1>
+          <ul className='problemlist'>
+          {
+              problems.map((problem) => {
+                  return(
+                      <li key={problem.id}>
+                        <Problem problem={problem}/>
+                      </li>
+                  )
+              })
+          }
+          </ul>
+          {
+            problems.length === 0
+            ? <h2>No Problems submitted</h2>
+            : <></>
+          }
+        </main>
+      
+    : <p>Loading...</p>
   )
 }
 
