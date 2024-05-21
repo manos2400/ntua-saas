@@ -1,14 +1,13 @@
 'use client'
 
 import React, { useCallback, useEffect, useState } from 'react'
-import InputBox from './InputBox'
 import { useDropzone } from 'react-dropzone';
 import '@/Styles/submitform.css'
 
 const SubmitForm = () => {
     
     const [filename, setFileName] = useState('');
-    const [acceptedFile, setAcceptedFile] = useState(null);
+    // const [acceptedFile, setAcceptedFile] = useState(null);
     const [metadata, setMetadata] = useState([]);
     const [solver, setSolver] = useState(1);
     const [dataset_name, setDatasetName] = useState('');
@@ -71,7 +70,6 @@ const SubmitForm = () => {
 
     const onCancel = async () =>{
         setFileName('');
-        setAcceptedFile(null);
         setMetadata(new Array(3).fill(''));
         setDatasetDescription('');
         setDatasetName('');
@@ -120,7 +118,7 @@ const SubmitForm = () => {
                     return(
                         <li key={value}>
                             <label>{value}</label>
-                            <input id={index} value={metadata[index]} onChange={(event) => onInputChange(event,index)}/>
+                            <input id={index} value={metadata.length === 0 ? '' : metadata[index]} onChange={(event) => onInputChange(event,index)}/>
                         </li>
                     )
                 })

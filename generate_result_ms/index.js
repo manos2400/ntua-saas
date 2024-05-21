@@ -9,7 +9,7 @@ const db = new sqlite3.Database('./data/mydatabase.db');
 
 kafkaConsumer.init();
 
-const PORT = process.env.PORT || 4006
+const PORT = process.env.PORT || 4005
 
 app.post('/solveproblem', solve_problem)
 app.get('/status',get_status);
