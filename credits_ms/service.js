@@ -25,7 +25,7 @@ db.initDB().then(r =>  {
 
 // Initialize Kafka client
 const kafkaClient = new KafkaClient();
-kafkaClient.subscribe('test-credits')
+kafkaClient.subscribe('test_creds')
     .then(r => console.info('Subscribed to test-credits topic'))
     .catch(e => {
         console.error('Error subscribing to test-credits topic', e);
