@@ -6,9 +6,6 @@ export class Problem {
     id: string;
 
     @Column()
-    description: string;
-
-    @Column()
     solver: string; // Solver that will be used to solve the problem (ex. vrpSolver)
 
     @Column()

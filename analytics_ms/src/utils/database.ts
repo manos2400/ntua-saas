@@ -19,7 +19,7 @@ export const addDummyRecords = async () => {
         const solverindex = Math.floor(Math.random() * 3);
         const problem = database.getRepository(Problem).create({
             id: /*random 6 char string*/ "prob"+Math.random().toString(36).substring(2, 8),
-            description: `Random problem ${i}`,
+            //description: `Random problem ${i}`,
             solver: `solver${solverindex}`,
             timestampStart: new Date().toISOString(),
             timestampEnd: /* random minutes later*/ new Date(Date.now() + Math.floor(Math.random() * 1000 * 60 * 60)).toISOString()

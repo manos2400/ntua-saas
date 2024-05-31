@@ -31,7 +31,7 @@ The architecture of the app is microservices-based using RESTful APIs for commun
 > frontend routes use the frontend host and port, while every microservice route uses its own host and port
 
 #### Routes for credits_ms
-- `POST` request to add credits:
+- `PUT` request to add credits:
     - *microservice route*: `/addCredits`
     - *frontend route*: `/solver_api/credits/getCredits`
 - `GET` request to get credits:
@@ -95,7 +95,7 @@ The architecture of the app is microservices-based using RESTful APIs for commun
 
 ### Hosts and Ports
 
-- `frontend`: localhost:TODO
+- `frontend`: localhost:3000
 - `credits_ms`: localhost:4004
 - `submit_ms`: localhost:4001
 - `generate_result_ms`: localhost:4005

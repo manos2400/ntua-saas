@@ -26,7 +26,7 @@ export const getProblemStats = async (req: Request, res: Response) => {
     const timeAfterSubmissionHR = timeFormat(timeAfterSubmission); // Human Readable
     const prob2 = {
         id: problem.id,
-        description: problem.description,
+        //description: problem.description,
         solver: problem.solver,
         submitted: problem.timestampStart,
         finished: problem.timestampEnd,

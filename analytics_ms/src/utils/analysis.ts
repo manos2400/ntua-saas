@@ -46,3 +46,9 @@ export const timeFormat = (time: number): string => {
     return formattedTime;
 }
 
+// gein input "data" string from generate result and return object with parsed stats
+export const parseStats = (data: string): any => {
+    const stats = JSON.parse(data);
+    return stats;
+}
+

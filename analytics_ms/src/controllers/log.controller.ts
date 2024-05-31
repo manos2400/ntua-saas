@@ -14,7 +14,7 @@ export const getLog = async (req: Request, res: Response) => {
         //const execTimeHR = timeFormat(execTime); // Human Readable
         return {
             id: problem.id,
-            description: problem.description,
+            //description: problem.description,
             //solver: problem.solver,
             submitted: problem.timestampStart,
             finished: problem.timestampEnd

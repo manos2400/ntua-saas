@@ -3,6 +3,7 @@ import app from './utils/app';
 import chalk from "chalk";
 import { database, addDummyRecords } from "./utils/database";
 import { Problem } from "./entities/problem.entity";
+import { timeDiff, timeFormat } from "./utils/analysis";
 
 export const kafka = new KafkaClient();
 
@@ -25,15 +26,16 @@ database.initialize().then(async () => {
                also add timestampStart and timestampEnd for stats
             */
             // parse json message
-            const {datasets, metadata, solver, description} = JSON.parse(message.value.toString());
-            if (!description || !solver || !datasets || !metadata) {
-                console.error(chalk.red('submit-queue: INVALID PROBLEM - Messages must have description, solver, at least one dataset and metadata'));
+            const submission = JSON.parse(message.value.toString());
+            if (!submission) {
+                console.error(chalk.red('submit-queue: Message must be a valid JSON'));
                 return;
             }
+
             // save to database
             const problem = database.getRepository(Problem).create({
-                description, // save description for better readability
-                solver,
+                id: submission.id,
+                solver: submission.solver_id,
                 timestampStart: new Date().toISOString(),
                 timestampEnd: ""
             });
@@ -42,7 +44,7 @@ database.initialize().then(async () => {
         } else if(topic === 'resultqueue') {
 
             // parse json message
-            const {problemID, output} = JSON.parse(message.value.toString());
+            const {data, solverID, problemID} = JSON.parse(message.value.toString());
             if (!problemID) {
                 console.error(chalk.red('resultqueue: Message must have problemID'));
                 return;
@@ -59,6 +61,7 @@ database.initialize().then(async () => {
             }
             // update timestampEnd (we dont need status, if timestampEnd is set, it is solved)
             problem.timestampEnd = new Date().toISOString();
+            //problem.stats = data;
             await database.getRepository(Problem).save(problem);
             console.info(chalk.green('Result saved!'));
         }
