@@ -46,9 +46,53 @@ export const timeFormat = (time: number): string => {
     return formattedTime;
 }
 
-// gein input "data" string from generate result and return object with parsed stats
+// input "data" string from generate result and return object with parsed stats
+/*
+data is a sting like this:
+Objective: 1377631
+Route for vehicle 0:
+ 0 ->  17 ->  11 ->  3 ->  15 ->  10 ->  8 ->  12 ->  7 -> 0
+Distance of the route: 13222m
+
+Route for vehicle 1:
+ 0 ->  13 ->  4 ->  2 ->  18 ->  16 ->  14 ->  9 ->  6 ->  1 ->  19 ->  5 -> 0
+Distance of the route: 13509m
+
+Maximum of the route distances: 13509m
+Execution time: 0.03887581825256348 seconds
+User CPU time: 0.07 seconds
+System CPU time: 0.01 seconds
+Memory used: 36.890625 MB
+Peak memory usage: 285.78125 MB
+
+or this:
+No solution found!
+*/
 export const parseStats = (data: string): any => {
-    const stats = JSON.parse(data);
+    const stats: any = {};
+    const lines = data.split('\n');
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        if (line.startsWith('No solution')) {
+            stats.execTime = 0;
+            stats.userTime = 0;
+            stats.sysTime = 0;
+            stats.memory = 0;
+            stats.memoryPeak = 0;
+            return stats;
+        }
+        else if (line.startsWith('Execution time:')) {
+            stats.execTime = parseFloat(line.split(':')[1].trim().split(' ')[0]);
+        } else if (line.startsWith('User CPU time:')) {
+            stats.userTime = parseFloat(line.split(':')[1].trim().split(' ')[0]);
+        } else if (line.startsWith('System CPU time:')) {
+            stats.sysTime = parseFloat(line.split(':')[1].trim().split(' ')[0]);
+        } else if (line.startsWith('Memory used:')) {
+            stats.memory = parseFloat(line.split(':')[1].trim().split(' ')[0]);
+        } else if (line.startsWith('Peak memory usage:')) {
+            stats.memoryPeak = parseFloat(line.split(':')[1].trim().split(' ')[0]);
+        }
+    }
     return stats;
 }
 

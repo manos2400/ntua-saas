@@ -21,18 +21,6 @@ export const getProblemStats = async (req: Request, res: Response) => {
         res.status(404).json({ message: `Problem ${problemId} not found!` });
         return;
     }
-    
-    const timeAfterSubmission = timeDiff(problem.timestampStart, problem.timestampEnd);
-    const timeAfterSubmissionHR = timeFormat(timeAfterSubmission); // Human Readable
-    const prob2 = {
-        id: problem.id,
-        //description: problem.description,
-        solver: problem.solver,
-        submitted: problem.timestampStart,
-        finished: problem.timestampEnd,
-        timeAfterSubmission,
-        timeAfterSubmissionHR
-    }
 
-    res.json(prob2);
+    res.json(problem);
 }

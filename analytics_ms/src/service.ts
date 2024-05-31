@@ -3,7 +3,7 @@ import app from './utils/app';
 import chalk from "chalk";
 import { database, addDummyRecords } from "./utils/database";
 import { Problem } from "./entities/problem.entity";
-import { timeDiff, timeFormat } from "./utils/analysis";
+import { timeDiff, parseStats } from "./utils/analysis";
 
 export const kafka = new KafkaClient();
 
@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 4003;
 database.initialize().then(async () => {
     console.info(chalk.blueBright('Database connected!'));
 
-    //await addDummyRecords(); // temporary, for testing
+    await addDummyRecords(); // temporary, for testing
 
     app.listen(PORT, () => {
         console.info(chalk.blueBright('Server running on port ' + PORT));
@@ -36,32 +36,45 @@ database.initialize().then(async () => {
             const problem = database.getRepository(Problem).create({
                 id: submission.id,
                 solver: submission.solver_id,
-                timestampStart: new Date().toISOString(),
-                timestampEnd: ""
+                submittedAt: new Date().toISOString(),
+                solvedAt: "",
+                execTime: 0,
+                userTime: 0,
+                sysTime: 0,
+                memory: 0,
+                memoryPeak: 0,
+                timeAfterSubmission: 0
             });
             await database.getRepository(Problem).save(problem);
             console.log(chalk.green('New problem saved!'));
         } else if(topic === 'resultqueue') {
 
             // parse json message
-            const {data, solverID, problemID} = JSON.parse(message.value.toString());
-            if (!problemID) {
+            const {data, solver_id, id} = JSON.parse(message.value.toString());
+            if (!id) {
                 console.error(chalk.red('resultqueue: Message must have problemID'));
                 return;
             }
             // get problem from database
-            const problem = await database.getRepository(Problem).findOneBy({id: problemID});
+            const problem = await database.getRepository(Problem).findOneBy({id: id});
             if (!problem) {
-                console.error(chalk.red(`resultqueue: Problem with id ${problemID} not found`));
+                console.error(chalk.red(`resultqueue: Problem with id ${id} not found`));
                 return;
             }
-            if(problem.timestampEnd !== "") {
-                console.error(chalk.red(`resultqueue: Problem with id ${problemID} is not pending`));
+            if(problem.solvedAt !== "") {
+                console.error(chalk.red(`resultqueue: Problem with id ${id} is not pending`));
                 return;
             }
             // update timestampEnd (we dont need status, if timestampEnd is set, it is solved)
-            problem.timestampEnd = new Date().toISOString();
-            //problem.stats = data;
+            problem.solvedAt = new Date().toISOString();
+            problem.timeAfterSubmission = timeDiff(problem.submittedAt, problem.solvedAt);
+            const stats = parseStats(data);
+            problem.execTime = stats.execTime;
+            problem.userTime = stats.userTime;
+            problem.sysTime = stats.sysTime;
+            problem.memory = stats.memory;
+            problem.memoryPeak = stats.memoryPeak;
+            
             await database.getRepository(Problem).save(problem);
             console.info(chalk.green('Result saved!'));
         }
