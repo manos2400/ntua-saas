@@ -13,7 +13,7 @@ const Status = () => {
   }, []);
 
   const fetchCredits = () => {
-    fetch('http://localhost:3001/solver_api/credits/getCredits', {
+    fetch('http://localhost:4004/getCredits', {
       method: 'get',
     })
     .then(response => response.json())
@@ -21,7 +21,7 @@ const Status = () => {
   }
 
   const addCreds = () => {
-    fetch('http://localhost:3001/solver_api/credits/addCredits', {
+    fetch('http://localhost:4004/addCredits', {
       method: 'put',
       headers: {'Content-Type' : 'application/json'},
       body: JSON.stringify({
