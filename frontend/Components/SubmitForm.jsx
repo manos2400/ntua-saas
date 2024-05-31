@@ -63,6 +63,11 @@ const SubmitForm = () => {
                 body: form
             })
             .then(response => console.log(response))
+
+            setFileName('');
+            setMetadata(new Array(3).fill(''));
+            setDatasetDescription('');
+            setDatasetName('');
           
         }
 
