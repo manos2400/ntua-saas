@@ -58,7 +58,7 @@ const page = () => {
     })
     .then(data => {
       console.log(data);
-      if(data.message !== undefined){
+      if(data === undefined){
         setProblems([]);
         setLoading(2);
       }
