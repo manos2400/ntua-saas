@@ -12,7 +12,7 @@ const Problem = ({problem}) => {
   }
 
   const onRun = () => {
-    fetch('http://localhost:3001/solver_api/solveProblem', {
+    fetch('http://localhost:4005/solveproblem', {
       method : 'post',
       headers: {'Content-Type' : 'application/json'},
       body : JSON.stringify({
