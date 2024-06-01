@@ -20,7 +20,7 @@ export const addDummyRecords = async () => {
 
         // random date in yyyy-mm-dd hh:mm:ss format
         const date1 = new Date().toISOString()
-        const timeAfterSubmission = Math.floor(Math.random() * 10000);
+        const timeAfterSubmission = Math.random() * (0.9 - 0.01) + 0.01;
         const date2 = new Date(Date.now() + timeAfterSubmission).toISOString();
 
 
@@ -31,11 +31,11 @@ export const addDummyRecords = async () => {
             solver: `solver${solverindex}`,
             submittedAt: date1,
             solvedAt: date2,
-            execTime: Math.floor(Math.random() * 100),
-            userTime: Math.floor(Math.random() * 100),
-            sysTime: Math.floor(Math.random() * 100),
-            memory: Math.floor(Math.random() * 100),
-            memoryPeak: Math.floor(Math.random() * 100),
+            execTime: /*random decimal between 0.01 and 0.9*/ Math.random() * (0.9 - 0.01) + 0.01,
+            userTime: 0.123456789123456789,
+            sysTime: Math.random() * (0.9 - 0.01) + 0.01,
+            memory: Math.random() * (0.9 - 0.01) + 0.01,
+            memoryPeak: Math.random() * (0.9 - 0.01) + 0.01,
             timeAfterSubmission: timeAfterSubmission
         });
         await database.getRepository(Problem).save(problem);

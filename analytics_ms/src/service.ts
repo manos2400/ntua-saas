@@ -12,13 +12,13 @@ const PORT = process.env.PORT || 4003;
 database.initialize().then(async () => {
     console.info(chalk.blueBright('Database connected!'));
 
-    // await addDummyRecords(); // temporary, for testing
+    //await addDummyRecords(); // temporary, for testing
 
     app.listen(PORT, () => {
         console.info(chalk.blueBright('Server running on port ' + PORT));
     });
     
-    await kafka.consume(['submit-queue', 'problem-solved'], async (topic, message) => {
+    await kafka.consume(['submit-queue', 'resultqueue'], async (topic, message) => {
         if(topic === 'submit-queue') {
             /* save problem when it is submitted,
                because resultqueue will not have solver info
@@ -47,22 +47,22 @@ database.initialize().then(async () => {
             });
             await database.getRepository(Problem).save(problem);
             console.log(chalk.green('New problem saved!'));
-        } else if(topic === 'problem-solved') {
+        } else if(topic === 'resultqueue') {
 
             // parse json message
             const {data, solver_id, id} = JSON.parse(message.value.toString());
             if (!id) {
-                console.error(chalk.red('problem-solved: Message must have problemID'));
+                console.error(chalk.red('resultqueue: Message must have problemID'));
                 return;
             }
             // get problem from database
             const problem = await database.getRepository(Problem).findOneBy({id: id});
             if (!problem) {
-                console.error(chalk.red(`problem-solved: Problem with id ${id} not found`));
+                console.error(chalk.red(`resultqueue: Problem with id ${id} not found`));
                 return;
             }
             if(problem.solvedAt !== "") {
-                console.error(chalk.red(`problem-solved: Problem with id ${id} is not pending`));
+                console.error(chalk.red(`resultqueue: Problem with id ${id} is not pending`));
                 return;
             }
             // update timestampEnd (we dont need status, if timestampEnd is set, it is solved)

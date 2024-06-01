@@ -17,24 +17,24 @@ export class Problem {
     @Column()
     solvedAt: string; // Timestamp when the problem was solved
 
-    @Column()
+    @Column({ type: 'decimal', precision: 10, scale: 4 })
     execTime: number; // in seconds
 
-    @Column()
+    @Column({ type: 'decimal', precision: 10, scale: 4 })
     userTime: number; // in seconds
 
-    @Column()
+    @Column({ type: 'decimal', precision: 10, scale: 4 })
     sysTime: number; // in seconds
 
-    @Column()
+    @Column({ type: 'decimal', precision: 10, scale: 4 })
     memory: number; // in MB
 
-    @Column()
+    @Column({ type: 'decimal', precision: 10, scale: 4 })
     memoryPeak: number; // in MB
 
     // generated
 
-    @Column()
+    @Column({ type: 'decimal', precision: 10, scale: 4 })
     timeAfterSubmission: number; // in seconds
 
 }

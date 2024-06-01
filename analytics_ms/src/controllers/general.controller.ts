@@ -2,6 +2,13 @@ import { Request, Response } from "express";
 import { Problem } from "../entities/problem.entity";
 import { database } from "../utils/database";
 
+const MIN_INIT = -1;
+const MAX_INIT = 999999999;
+
+function ff(num: number) { // force float
+    return parseFloat(num.toString());
+}
+
 export const getGeneral = async (req: Request, res: Response) => {
     
     // get general statistics for all problems
@@ -18,33 +25,33 @@ export const getGeneral = async (req: Request, res: Response) => {
 
         // submission time
         avgTimeAfterSubmission: 0,
-        minTimeAfterSubmission: Number.MAX_SAFE_INTEGER,
-        maxTimeAfterSubmission: Number.MIN_SAFE_INTEGER,
+        minTimeAfterSubmission: MAX_INIT,
+        maxTimeAfterSubmission: MIN_INIT,
 
         // exec time
         avgExecTime: 0,
-        minExecTime: Number.MAX_SAFE_INTEGER,
-        maxExecTime: Number.MIN_SAFE_INTEGER,
+        minExecTime: MAX_INIT,
+        maxExecTime: MIN_INIT,
 
         // user time
         avgUserTime: 0,
-        minUserTime: Number.MAX_SAFE_INTEGER,
-        maxUserTime: Number.MIN_SAFE_INTEGER,
+        minUserTime: MAX_INIT,
+        maxUserTime: MIN_INIT,
 
         // sys time
         avgSysTime: 0,
-        minSysTime: Number.MAX_SAFE_INTEGER,
-        maxSysTime: Number.MIN_SAFE_INTEGER,
+        minSysTime: MAX_INIT,
+        maxSysTime: MIN_INIT,
 
         // memory
         avgMemory: 0, // in MB
-        minMemory: Number.MAX_SAFE_INTEGER,
-        maxMemory: Number.MIN_SAFE_INTEGER,
+        minMemory: MAX_INIT,
+        maxMemory: MIN_INIT,
         
         // memory peak
         avgMemoryPeak: 0, // in MB
-        minMemoryPeak: Number.MAX_SAFE_INTEGER,
-        maxMemoryPeak: Number.MIN_SAFE_INTEGER,
+        minMemoryPeak: MAX_INIT,
+        maxMemoryPeak: MIN_INIT,
 
         solversStats: [{}],
         monthlyStats: [{}]
@@ -67,33 +74,33 @@ export const getGeneral = async (req: Request, res: Response) => {
                 
                 // submission time
         avgTimeAfterSubmission: 0,
-        minTimeAfterSubmission: Number.MAX_SAFE_INTEGER,
-        maxTimeAfterSubmission: Number.MIN_SAFE_INTEGER,
+        minTimeAfterSubmission: MAX_INIT,
+        maxTimeAfterSubmission: MIN_INIT,
 
         // exec time
         avgExecTime: 0,
-        minExecTime: Number.MAX_SAFE_INTEGER,
-        maxExecTime: Number.MIN_SAFE_INTEGER,
+        minExecTime: MAX_INIT,
+        maxExecTime: MIN_INIT,
 
         // user time
         avgUserTime: 0,
-        minUserTime: Number.MAX_SAFE_INTEGER,
-        maxUserTime: Number.MIN_SAFE_INTEGER,
+        minUserTime: MAX_INIT,
+        maxUserTime: MIN_INIT,
 
         // sys time
         avgSysTime: 0,
-        minSysTime: Number.MAX_SAFE_INTEGER,
-        maxSysTime: Number.MIN_SAFE_INTEGER,
+        minSysTime: MAX_INIT,
+        maxSysTime: MIN_INIT,
 
         // memory
         avgMemory: 0, // in MB
-        minMemory: Number.MAX_SAFE_INTEGER,
-        maxMemory: Number.MIN_SAFE_INTEGER,
+        minMemory: MAX_INIT,
+        maxMemory: MIN_INIT,
         
         // memory peak
         avgMemoryPeak: 0, // in MB
-        minMemoryPeak: Number.MAX_SAFE_INTEGER,
-        maxMemoryPeak: Number.MIN_SAFE_INTEGER
+        minMemoryPeak: MAX_INIT,
+        maxMemoryPeak: MIN_INIT
             });
         }
         const tssIndex = solversStatsArray.findIndex(solver => solver.name === solverName);
@@ -110,33 +117,33 @@ export const getGeneral = async (req: Request, res: Response) => {
                 
                 // submission time
         avgTimeAfterSubmission: 0,
-        minTimeAfterSubmission: Number.MAX_SAFE_INTEGER,
-        maxTimeAfterSubmission: Number.MIN_SAFE_INTEGER,
+        minTimeAfterSubmission: MAX_INIT,
+        maxTimeAfterSubmission: MIN_INIT,
 
         // exec time
         avgExecTime: 0,
-        minExecTime: Number.MAX_SAFE_INTEGER,
-        maxExecTime: Number.MIN_SAFE_INTEGER,
+        minExecTime: MAX_INIT,
+        maxExecTime: MIN_INIT,
 
         // user time
         avgUserTime: 0,
-        minUserTime: Number.MAX_SAFE_INTEGER,
-        maxUserTime: Number.MIN_SAFE_INTEGER,
+        minUserTime: MAX_INIT,
+        maxUserTime: MIN_INIT,
 
         // sys time
         avgSysTime: 0,
-        minSysTime: Number.MAX_SAFE_INTEGER,
-        maxSysTime: Number.MIN_SAFE_INTEGER,
+        minSysTime: MAX_INIT,
+        maxSysTime: MIN_INIT,
 
         // memory
         avgMemory: 0, // in MB
-        minMemory: Number.MAX_SAFE_INTEGER,
-        maxMemory: Number.MIN_SAFE_INTEGER,
+        minMemory: MAX_INIT,
+        maxMemory: MIN_INIT,
         
         // memory peak
         avgMemoryPeak: 0, // in MB
-        minMemoryPeak: Number.MAX_SAFE_INTEGER,
-        maxMemoryPeak: Number.MIN_SAFE_INTEGER
+        minMemoryPeak: MAX_INIT,
+        maxMemoryPeak: MIN_INIT
             });
             monthlyStatsIndex = monthlyStats.length - 1;
         }
@@ -149,92 +156,98 @@ export const getGeneral = async (req: Request, res: Response) => {
         // 1. time after submission
 
         // 1.1 general
-        general.avgTimeAfterSubmission += problem.timeAfterSubmission;
-        if (problem.timeAfterSubmission < general.minTimeAfterSubmission) general.minTimeAfterSubmission = problem.timeAfterSubmission;
-        if (problem.timeAfterSubmission > general.maxTimeAfterSubmission) general.maxTimeAfterSubmission = problem.timeAfterSubmission;
+        const probTAS = ff(problem.timeAfterSubmission);
+        general.avgTimeAfterSubmission += probTAS;
+        if (probTAS < general.minTimeAfterSubmission) general.minTimeAfterSubmission = probTAS;
+        if (probTAS > general.maxTimeAfterSubmission) general.maxTimeAfterSubmission = probTAS;
         // 1.2 solver
-        tss.avgTimeAfterSubmission += problem.timeAfterSubmission;
-        if (problem.timeAfterSubmission < tss.minTimeAfterSubmission) tss.minTimeAfterSubmission = problem.timeAfterSubmission;
-        if (problem.timeAfterSubmission > tss.maxTimeAfterSubmission) tss.maxTimeAfterSubmission = problem.timeAfterSubmission;
+        tss.avgTimeAfterSubmission += probTAS;
+        if (probTAS < tss.minTimeAfterSubmission) tss.minTimeAfterSubmission = probTAS;
+        if (probTAS > tss.maxTimeAfterSubmission) tss.maxTimeAfterSubmission = probTAS;
         // 1.3 monthly
-        tms.avgTimeAfterSubmission += problem.timeAfterSubmission;
-        if (problem.timeAfterSubmission < tms.minTimeAfterSubmission) tms.minTimeAfterSubmission = problem.timeAfterSubmission;
-        if (problem.timeAfterSubmission > tms.maxTimeAfterSubmission) tms.maxTimeAfterSubmission = problem.timeAfterSubmission;
+        tms.avgTimeAfterSubmission += probTAS;
+        if (probTAS < tms.minTimeAfterSubmission) tms.minTimeAfterSubmission = probTAS;
+        if (probTAS > tms.maxTimeAfterSubmission) tms.maxTimeAfterSubmission = probTAS;
 
         // 2. exec time
 
         // 2.1 general
-        general.avgExecTime += problem.execTime;
-        if (problem.execTime < general.minExecTime) general.minExecTime = problem.execTime;
-        if (problem.execTime > general.maxExecTime) general.maxExecTime = problem.execTime;
+        const probET = ff(problem.execTime);
+        general.avgExecTime += probET;
+        if (probET < general.minExecTime) general.minExecTime = probET;
+        if (probET > general.maxExecTime) general.maxExecTime = probET;
         // 2.2 solver
-        tss.avgExecTime += problem.execTime;
-        if (problem.execTime < tss.minExecTime) tss.minExecTime = problem.execTime;
-        if (problem.execTime > tss.maxExecTime) tss.maxExecTime = problem.execTime;
+        tss.avgExecTime += probET;
+        if (probET < tss.minExecTime) tss.minExecTime = probET;
+        if (probET > tss.maxExecTime) tss.maxExecTime = probET;
         // 2.3 monthly
-        tms.avgExecTime += problem.execTime;
-        if (problem.execTime < tms.minExecTime) tms.minExecTime = problem.execTime;
-        if (problem.execTime > tms.maxExecTime) tms.maxExecTime = problem.execTime;
+        tms.avgExecTime += probET;
+        if (probET < tms.minExecTime) tms.minExecTime = probET;
+        if (probET > tms.maxExecTime) tms.maxExecTime = probET;
 
         // 3. user time
 
         // 3.1 general
-        general.avgUserTime += problem.userTime;
-        if (problem.userTime < general.minUserTime) general.minUserTime = problem.userTime;
-        if (problem.userTime > general.maxUserTime) general.maxUserTime = problem.userTime;
+        const probUT = ff(problem.userTime);
+        general.avgUserTime += probUT;
+        if (probUT < general.minUserTime) general.minUserTime = probUT;
+        if (probUT > general.maxUserTime) general.maxUserTime = probUT;
         // 3.2 solver
-        tss.avgUserTime += problem.userTime;
-        if (problem.userTime < tss.minUserTime) tss.minUserTime = problem.userTime;
-        if (problem.userTime > tss.maxUserTime) tss.maxUserTime = problem.userTime;
+        tss.avgUserTime += probUT;
+        if (probUT < tss.minUserTime) tss.minUserTime = probUT;
+        if (probUT > tss.maxUserTime) tss.maxUserTime = probUT;
         // 3.3 monthly
-        tms.avgUserTime += problem.userTime;
-        if (problem.userTime < tms.minUserTime) tms.minUserTime = problem.userTime;
-        if (problem.userTime > tms.maxUserTime) tms.maxUserTime = problem.userTime;
+        tms.avgUserTime += probUT;
+        if (probUT < tms.minUserTime) tms.minUserTime = probUT;
+        if (probUT > tms.maxUserTime) tms.maxUserTime = probUT;
 
         // 4. sys time
 
         // 4.1 general
-        general.avgSysTime += problem.sysTime;
-        if (problem.sysTime < general.minSysTime) general.minSysTime = problem.sysTime;
-        if (problem.sysTime > general.maxSysTime) general.maxSysTime = problem.sysTime;
+        const probST = ff(problem.sysTime);
+        general.avgSysTime += probST;
+        if (probST < general.minSysTime) general.minSysTime = probST;
+        if (probST > general.maxSysTime) general.maxSysTime = probST;
         // 4.2 solver
-        tss.avgSysTime += problem.sysTime;
-        if (problem.sysTime < tss.minSysTime) tss.minSysTime = problem.sysTime;
-        if (problem.sysTime > tss.maxSysTime) tss.maxSysTime = problem.sysTime;
+        tss.avgSysTime += probST;
+        if (probST < tss.minSysTime) tss.minSysTime = probST;
+        if (probST > tss.maxSysTime) tss.maxSysTime = probST;
         // 4.3 monthly
-        tms.avgSysTime += problem.sysTime;
-        if (problem.sysTime < tms.minSysTime) tms.minSysTime = problem.sysTime;
-        if (problem.sysTime > tms.maxSysTime) tms.maxSysTime = problem.sysTime;
+        tms.avgSysTime += probST;
+        if (probST < tms.minSysTime) tms.minSysTime = probST;
+        if (probST > tms.maxSysTime) tms.maxSysTime = probST;
 
         // 5. memory
 
         // 5.1 general
-        general.avgMemory += problem.memory;
-        if (problem.memory < general.minMemory) general.minMemory = problem.memory;
-        if (problem.memory > general.maxMemory) general.maxMemory = problem.memory;
+        const probM = ff(problem.memory);
+        general.avgMemory += probM;
+        if (probM < general.minMemory) general.minMemory = probM;
+        if (probM > general.maxMemory) general.maxMemory = probM;
         // 5.2 solver
-        tss.avgMemory += problem.memory;
-        if (problem.memory < tss.minMemory) tss.minMemory = problem.memory;
-        if (problem.memory > tss.maxMemory) tss.maxMemory = problem.memory;
+        tss.avgMemory += probM;
+        if (probM < tss.minMemory) tss.minMemory = probM;
+        if (probM > tss.maxMemory) tss.maxMemory = probM;
         // 5.3 monthly
-        tms.avgMemory += problem.memory;
-        if (problem.memory < tms.minMemory) tms.minMemory = problem.memory;
-        if (problem.memory > tms.maxMemory) tms.maxMemory = problem.memory;
+        tms.avgMemory += probM;
+        if (probM < tms.minMemory) tms.minMemory = probM;
+        if (probM > tms.maxMemory) tms.maxMemory = probM;
 
         // 6. memory peak
 
         // 6.1 general
-        general.avgMemoryPeak += problem.memoryPeak;
-        if (problem.memoryPeak < general.minMemoryPeak) general.minMemoryPeak = problem.memoryPeak;
-        if (problem.memoryPeak > general.maxMemoryPeak) general.maxMemoryPeak = problem.memoryPeak;
+        const probMP = ff(problem.memoryPeak);
+        general.avgMemoryPeak += probMP;
+        if (probMP < general.minMemoryPeak) general.minMemoryPeak = probMP;
+        if (probMP > general.maxMemoryPeak) general.maxMemoryPeak = probMP;
         // 6.2 solver
-        tss.avgMemoryPeak += problem.memoryPeak;
-        if (problem.memoryPeak < tss.minMemoryPeak) tss.minMemoryPeak = problem.memoryPeak;
-        if (problem.memoryPeak > tss.maxMemoryPeak) tss.maxMemoryPeak = problem.memoryPeak;
+        tss.avgMemoryPeak += probMP;
+        if (probMP < tss.minMemoryPeak) tss.minMemoryPeak = probMP;
+        if (probMP > tss.maxMemoryPeak) tss.maxMemoryPeak = probMP;
         // 6.3 monthly
-        tms.avgMemoryPeak += problem.memoryPeak;
-        if (problem.memoryPeak < tms.minMemoryPeak) tms.minMemoryPeak = problem.memoryPeak;
-        if (problem.memoryPeak > tms.maxMemoryPeak) tms.maxMemoryPeak = problem.memoryPeak;
+        tms.avgMemoryPeak += probMP;
+        if (probMP < tms.minMemoryPeak) tms.minMemoryPeak = probMP;
+        if (probMP > tms.maxMemoryPeak) tms.maxMemoryPeak = probMP;
 
     });
 
