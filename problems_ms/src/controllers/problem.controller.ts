@@ -45,6 +45,6 @@ export const deleteProblem = async (req: Request, res: Response) => {
     await database.getRepository(Problem).delete({ id: problemId });
 
     // Notify other microservices that the problem was deleted
-    await kafka.produce('problem-delete', [{ value: JSON.stringify({ id: problemId }) }]);
+    await kafka.produce('problem-deleted', [{ value: JSON.stringify({ id: problemId }) }]);
     res.json({ message: 'Problem deleted!' });
 }

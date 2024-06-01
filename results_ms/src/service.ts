@@ -13,12 +13,12 @@ database.initialize().then(async () => {
     app.listen(PORT, () => {
         console.info(chalk.blueBright('Server running on port ' + PORT));
     });
-        await kafka.consume(['solved-problems', 'problem-delete'], async (topic, message) => {
-            if(topic == 'solved-problems') {
+        await kafka.consume(['problem-solved', 'problem-deleted'], async (topic, message) => {
+            if(topic == 'problem-solved') {
                 // parse json message
                 const {id, data} = JSON.parse(message.value.toString());
                 if (!id) {
-                    console.error(chalk.red('solved-problems: Message must have problemID'));
+                    console.error(chalk.red('problem-solved: Message must have problemID'));
                     return;
                 }
                 // Check if result already exists
@@ -26,7 +26,7 @@ database.initialize().then(async () => {
                     where: { problem_id: id }
                 });
                 if (result) {
-                    console.error(chalk.red(`solved-problems: Result already exists for problem with id ${id}`));
+                    console.error(chalk.red(`problem-solved: Result already exists for problem with id ${id}`));
                     return;
                 }
                 // format output
@@ -47,11 +47,11 @@ database.initialize().then(async () => {
                 console.info(chalk.green('New result saved!'));
                 // Notify other microservices that the problem was solved
                 await kafka.produce('result-queue', [{ value: JSON.stringify(formattedResult) }]);
-            } else if (topic == 'problem-delete') {
+            } else if (topic == 'problem-deleted') {
                 // parse json message
                 const {id} = JSON.parse(message.value.toString());
                 if (!id) {
-                    console.info(chalk.red('problem-delete: Message must have an id'));
+                    console.info(chalk.red('problem-deleted: Message must have an id'));
                     return;
                 }
                 // delete from database
@@ -59,7 +59,7 @@ database.initialize().then(async () => {
                     where: { problem_id: id }
                 });
                 if (!result) {
-                    console.info(chalk.red(`problem-delete: Result not found for problem with id ${id}`));
+                    console.info(chalk.red(`problem-deleted: Result not found for problem with id ${id}`));
                     return;
                 }
                 await database.getRepository(Result).delete(result);
