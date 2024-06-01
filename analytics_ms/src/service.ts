@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 4003;
 database.initialize().then(async () => {
     console.info(chalk.blueBright('Database connected!'));
 
-    // await addDummyRecords(); // temporary, for testing
+    //await addDummyRecords(); // temporary, for testing
 
     app.listen(PORT, () => {
         console.info(chalk.blueBright('Server running on port ' + PORT));
@@ -21,7 +21,7 @@ database.initialize().then(async () => {
     await kafka.consume(['submit-queue', 'problem-solved'], async (topic, message) => {
         if(topic === 'submit-queue') {
             /* save problem when it is submitted,
-               because resultqueue will not have solver info
+               because problem-solved will not have solver info
 
                also add timestampStart and timestampEnd for stats
             */
