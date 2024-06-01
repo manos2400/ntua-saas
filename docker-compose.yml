@@ -179,7 +179,7 @@ services:
       - PORT=4005
       - KAFKA_BROKER=kafka:9092
     volumes:
-        - ./generate_result_ms/data:/app/data
+        - generate-result-db-data:/app/data
     networks:
       - saas
     depends_on:
