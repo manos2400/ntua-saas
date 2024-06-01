@@ -38,6 +38,8 @@ database.initialize().then(async () => {
                 } else {
                     formattedResult = formatOutput(data);
                 }
+                // @ts-ignore
+                formattedResult.problemID = id;
                 // save to database
                 const newResult = database.getRepository(Result).create({
                         problem_id: id,
