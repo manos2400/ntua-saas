@@ -169,6 +169,13 @@ services:
     depends_on:
       kafka:
         condition: service_started
+  generate-result-db:
+    image: nouchka/sqlite3:latest
+    restart: always
+    volumes:
+      - ./generate-result-db-data:/app/generate_result_ms/data
+    networks:
+      - saas
   generate-result-ms:
     build:
       context: ./generate_result_ms/
@@ -178,8 +185,6 @@ services:
     environment:
       - PORT=4005
       - KAFKA_BROKER=kafka:9092
-    volumes:
-        - generate-result-db-data:/app/data
     networks:
       - saas
     depends_on:

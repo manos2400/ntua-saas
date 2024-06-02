@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 
 // Connect to SQLite database
-const db = new sqlite3.Database('../data/mydatabase.db',  sqlite3.OPEN_CREATE, (err) => {
+const db = new sqlite3.Database('/app/data/mydatabase.db',  sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
     if (err) {
         console.error(err.message);
     } else {
@@ -47,3 +47,4 @@ db.close((err) => {
     }
 });
 
+module.exports = db;

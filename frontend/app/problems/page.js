@@ -6,34 +6,6 @@ import '@/Styles/problemlist.css'
 
 
 
-// const problems = [
-//   {
-//       id: 1,
-//       name: 'problem1',
-//       timestamp: '2023',
-//       status: 'executed',
-//   },
-//   {
-//       id: 2,
-//       name: 'problem2',
-//       timestamp: '2023',
-//       status: 'executed',
-//   },
-//   {
-//       id: 3,
-//       name: 'problem3',
-//       timestamp: '2023',
-//       status: 'executed',
-//   },
-//   {
-//       id: 4,
-//       name: 'problem4',
-//       timestamp: '2023',
-//       status: 'executed',
-//   },
-  
-// ];
-
 const page = () => {
 
   const [problems, setProblems] = useState([]);

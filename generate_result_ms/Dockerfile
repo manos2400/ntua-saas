@@ -18,16 +18,16 @@ RUN npm install
 
 # Ensure the data directory exists
 RUN mkdir -p /app/data
-
 # Copy the rest of the application code
 COPY . .
 
 # Initialize the database
-RUN npm run database_init
 
+# RUN chmod 777 /app/data/mydatabase.db
 # Copy the entrypoint script
 COPY entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
-
+RUN chmod 777 /app/data
+EXPOSE 4005
 # Use the virtual environment's Python and run the application
 CMD ["/app/entrypoint.sh"]
