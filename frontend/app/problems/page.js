@@ -12,6 +12,11 @@ const page = () => {
   const [loading, setLoading] = useState(1);
 
   useEffect(() => {
+    fetchProbs();
+  }, [])
+
+
+  const fetchProbs = () => {
     fetch('http://localhost:4000/problems', {
       method: 'get',
     })
@@ -21,27 +26,20 @@ const page = () => {
         return response.json();
       }
       else if(response.status === 200){
-        console.log('hi')
         return response.json();
-      }
-      else{
-        console.log('elseees');
       }
     })
     .then(data => {
-      console.log(data);
       if(data === undefined){
         setProblems([]);
         setLoading(2);
       }
       else{
-        console.log(data);
         setProblems(data);
         setLoading(0);
       }
     })
-   
-  }, [])
+  }
   
 
   return (
@@ -53,7 +51,7 @@ const page = () => {
               problems.map((problem) => {
                   return(
                       <li key={problem.id}>
-                        <Problem problem={problem}/>
+                        <Problem problem={problem} fetchProbs={fetchProbs}/>
                       </li>
                   )
               })

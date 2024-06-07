@@ -8,7 +8,7 @@ import {Dataset} from "./entities/dataset.entity";
 import {Metadata} from "./entities/metadata.entity";
 
 export const kafka = new KafkaClient();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 database.initialize().then(async () => {
     console.info(chalk.blueBright('Database connected!'));
     app.listen(PORT, () => {

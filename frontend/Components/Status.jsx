@@ -1,24 +1,17 @@
 'use client';
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { useCredits } from './CreditsProvider';
 import '../Styles/status.css'
 
 const Status = () => {
 
-  const [globalCreds, setGlobalCreds] = useState(0);
-
+  const {credits, fetchCredits} = useCredits();
 
   useEffect(() => {
     fetchCredits();
   }, []);
 
-  const fetchCredits = () => {
-    fetch('http://localhost:4004/getCredits', {
-      method: 'get',
-    })
-    .then(response => response.json())
-    .then(data => setGlobalCreds(data.globalCreds))
-  }
 
   const addCreds = () => {
     fetch('http://localhost:4004/addCredits', {
@@ -30,7 +23,6 @@ const Status = () => {
     })
     .then(response => response.json())
     .then(response => {
-      console.log(response);
       fetchCredits();
     })
   }
@@ -38,7 +30,7 @@ const Status = () => {
   return (
     <div className='status_container'>
         <div>
-          <h3>{`Available Credits: ${globalCreds}`}</h3>
+          <h3>{`Available Credits: ${credits}`}</h3>
           <button onClick={addCreds}>+</button>
         </div>
         <p>Services status: All online!</p>

@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone';
 import '@/Styles/submitform.css'
+import { useCredits } from './CreditsProvider';
 
 const SubmitForm = () => {
     
@@ -12,6 +13,10 @@ const SubmitForm = () => {
     const [solver, setSolver] = useState(1);
     const [dataset_name, setDatasetName] = useState('');
     const [dataset_description, setDatasetDescription] = useState('');
+    const [showError, setShowError] = useState(false);
+
+
+    const {credits, fetchCredits} = useCredits();
 
     useEffect(() => {
         setMetadata(new Array(3).fill(''));
@@ -43,34 +48,43 @@ const SubmitForm = () => {
 
     
     const onSubmit = async () => {
-        console.log(acceptedFiles[0]);
-        if(acceptedFiles[0] === null){
-            alert('No file uploaded');
+        if(credits >= 10){
+            setShowError(false);
+            if(acceptedFiles[0] === null){
+                alert('No file uploaded');
+            }
+            else{
+                let form = new FormData();
+                form.append('file', acceptedFiles[0]);
+                form.append('solver_id', solver);
+                form.append('name', dataset_name);
+                form.append('description', dataset_description);
+                form.append('num_vehicles', metadata[0]);
+                form.append('depot', metadata[1]);
+                form.append('max_distance', metadata[2]);
+
+        
+                fetch('http://localhost:4001/submit_metadata',{
+                    method: 'post',
+                    body: form
+                })
+                .then(response => fetchCredits())
+
+                setFileName('');
+                setMetadata(new Array(3).fill(''));
+                setDatasetDescription('');
+                setDatasetName('');
+            
+            }
+
         }
         else{
-            let form = new FormData();
-            form.append('file', acceptedFiles[0]);
-            form.append('solver_id', solver);
-            form.append('name', dataset_name);
-            form.append('description', dataset_description);
-            form.append('num_vehicles', metadata[0]);
-            form.append('depot', metadata[1]);
-            form.append('max_distance', metadata[2]);
-
-    
-            fetch('http://localhost:4001/submit_metadata',{
-                method: 'post',
-                body: form
-            })
-            .then(response => console.log(response))
-
+            setShowError(true);
             setFileName('');
             setMetadata(new Array(3).fill(''));
             setDatasetDescription('');
             setDatasetName('');
-          
         }
-
     }
 
     const onCancel = async () =>{
@@ -78,6 +92,7 @@ const SubmitForm = () => {
         setMetadata(new Array(3).fill(''));
         setDatasetDescription('');
         setDatasetName('');
+        setShowError(false);
     }
 
 
@@ -144,6 +159,10 @@ const SubmitForm = () => {
             <button className='btn' onClick={onSubmit}>Upload</button>
             <button className='btn' onClick={onCancel}>Cancel</button>
         </div>
+        {showError
+        ? <span>Error: not enough credits!</span>
+        : <></>
+        }
     </section>
   )
 }
