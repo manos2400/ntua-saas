@@ -8,7 +8,8 @@ import AnalyticsComponent from '@/Components/AnalyticsComponent'
 const page = () => {
 
   const [generalAnalytics, setGeneralAnalytics] = useState({})
-
+  const [warning, setWarning] = useState('');
+  const [showWarning, setShowWarning] = useState(false);
 
   useEffect(() => {
     fetch('http://localhost:4003/analytics',
@@ -16,17 +17,31 @@ const page = () => {
       method: 'get'
     }
     )
-    .then(response => response.json())
+    .then(response => {
+      if(response.status === 200){
+        return response.json();
+      }
+      else{
+        throw new Error('Server Error');
+      }    
+    })
     .then(data => {
-      console.log(data);
       setGeneralAnalytics(data);
     })
+    .catch((err) => {
+      setShowWarning(true);
+      setWarning('Internal Server error. Try again later.')
+    })
+
   }, [])
 
 
   return (
     <main className='analytics_container'>
-      <AnalyticsComponent analyticObject={generalAnalytics}/>
+      {showWarning
+        ? <p>{warning}</p>
+        : <AnalyticsComponent analyticObject={generalAnalytics} />
+      }
     </main>
   )
 }

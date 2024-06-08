@@ -10,6 +10,7 @@ const page = () => {
 
   const [problems, setProblems] = useState([]);
   const [loading, setLoading] = useState(1);
+  const [errorState, setErrorState] = useState('No problem submitted yet!');
 
   useEffect(() => {
     fetchProbs();
@@ -30,6 +31,7 @@ const page = () => {
       }
     })
     .then(data => {
+      console.log(data);
       if(data === undefined){
         setProblems([]);
         setLoading(2);
@@ -38,6 +40,10 @@ const page = () => {
         setProblems(data);
         setLoading(0);
       }
+    })
+    .catch((err) => {
+      setLoading(2);
+      setErrorState('Internal server error. Try again later!')
     })
   }
   
@@ -67,7 +73,7 @@ const page = () => {
     : (loading === 1
     
       ? <p>Loading...</p>
-      : <p>No Problems submitted yet!</p>
+      : <p>{errorState}</p>
   )
   )
 }

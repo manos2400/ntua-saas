@@ -41,7 +41,7 @@ const Navbar = () => {
 
     return (
     <nav className='navbar'>
-        <Image src={Logo} width={120} height={120}/>
+        <Image alt='logo' src={Logo} width={120} height={120}/>
         <ul className='navbar-items'>
             {
                 navbarItems.map((item) => {

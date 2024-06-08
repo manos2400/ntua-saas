@@ -13,7 +13,7 @@ const LandingComponent = () => {
         <h3>A revolutionary problem solver!</h3>
       </section>
       <section className='landing_hero'>
-        <Image className='landing_image' src={LandingImage} width={960} height={600} alt='SolveMyProb landing image'/>
+        <Image className='landing_image' src={LandingImage} width={960} height={600} alt='SolveMyProb_landing_image'/>
         <span>Image design by freepiks</span>
       </section>
       <BlurDecor color={1} strength={2} position={1}/>
