@@ -211,22 +211,22 @@ services:
       - 8080:8080
     networks:
       - saas
-  # frontend:
-  #   build:
-  #     context: ./frontend/
-  #     target: frontend
-  #   ports:
-  #     - 3000:3000
-  #   networks:
-  #     - saas
-  #   depends_on:
-  #     - problems-ms
-  #     - results-ms
-  #     - analytics-ms
-  #     - credits-ms
-  #     - submit-ms
-  #     - generate-result-ms
-  #     - kafka
+  frontend:
+     build:
+       context: ./frontend/
+       target: frontend
+     ports:
+       - 3000:3000
+     networks:
+       - saas
+     depends_on:
+       - problems-ms
+       - results-ms
+       - analytics-ms
+       - credits-ms
+       - submit-ms
+       - generate-result-ms
+       - kafka
 volumes:
   problems-db-data:
   results-db-data:
