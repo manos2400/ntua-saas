@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react'
 import '@/Styles/analytics.css'
 import AnalyticsComponent from '@/Components/AnalyticsComponent'
+import { Audio } from 'react-loader-spinner';
+
 
 
 const page = () => {
@@ -10,6 +12,7 @@ const page = () => {
   const [generalAnalytics, setGeneralAnalytics] = useState({})
   const [warning, setWarning] = useState('');
   const [showWarning, setShowWarning] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch('http://localhost:4003/analytics',
@@ -27,8 +30,10 @@ const page = () => {
     })
     .then(data => {
       setGeneralAnalytics(data);
+      setLoading(false);
     })
     .catch((err) => {
+      setLoading(false);
       setShowWarning(true);
       setWarning('Internal Server error. Try again later.')
     })
@@ -38,10 +43,13 @@ const page = () => {
 
   return (
     <main className='analytics_container'>
-      {showWarning
-        ? <p>{warning}</p>
-        : <AnalyticsComponent analyticObject={generalAnalytics} />
+      {loading
+        ? <Audio height="80" width="80" radius="9" color="green" ariaLabel="three-dots-loading" wrapperStyle wrapperClass/>
+        : showWarning
+          ? <p>{warning}</p>
+          : <AnalyticsComponent analyticObject={generalAnalytics} />
       }
+     
     </main>
   )
 }

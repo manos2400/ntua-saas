@@ -13,52 +13,160 @@ const Status = () => {
     fetchAll();
   }, []);
 
-  const checkMicroservice = (microservice, name) => {
-    if(microservice.status !== 200){
-      if(status === 'All services online'){
-        setStatus(`${name} Microservice down`);
-      }
-      else{
-        setStatus(status +  `,${name} Microservice down`);
-      }
+  const checkMicroservice = (microservice) => {
+    if(microservice.status === 200){
+      return true;
     }
   }
-
+  
   const fetchAll = async () =>{
     await fetchCredits();
-
+    
+    let oneFailed = false;
+    let statusTemp = '';
+    
     try {
       const sumbit_ms = await fetch('http://localhost:4001/status', {
         method: 'get'
-      })
-  
+        })
+        
+      if(!checkMicroservice(sumbit_ms)){
+        console.log(statusTemp);
+        if(!oneFailed){
+          statusTemp = 'Submit Microservice down';
+          oneFailed = true;
+        }
+        else{
+          statusTemp = statusTemp + ', Submit Microservice down';
+        }
+        console.log(statusTemp);
+      }
+
+    } catch (error) {
+        if(!oneFailed){
+          statusTemp = 'Submit Microservice down';
+          oneFailed = true;
+        }
+        else{
+          statusTemp = statusTemp + ', Submit Microservice down';
+        }
+    }
+
+
+    try {
       const analytics_ms = await fetch('http://localhost:4003/status', {
         method: 'get'
-      })
-  
-  
+        })
+
+        if(!checkMicroservice(analytics_ms)){
+          console.log(statusTemp);
+
+          if(!oneFailed){
+            statusTemp = 'Analytics Microservice down';
+            oneFailed = true;
+          }
+          else{
+            statusTemp = statusTemp + ', Analytics Microservice down';
+          }
+          console.log(statusTemp);
+
+        }
+        
+    } catch (error) {
+        if(!oneFailed){
+          statusTemp = 'Analytics Microservice down';
+          oneFailed = true;
+        }
+        else{
+          statusTemp = statusTemp + ', Analytics Microservice down';
+        }
+    }
+          
+              
+    try {
       const generate_ms = await fetch('http://localhost:4005/status', {
         method: 'get'
-      })    
-   
+        })  
+
+        if(!checkMicroservice(generate_ms)){
+          if(!oneFailed){
+            statusTemp = 'Generate Results Microservice down';
+            oneFailed = true;
+          }
+          else{
+            statusTemp = statusTemp + ', Generate Results Microservice down';
+          }
+        }
+
+        } catch (error) {
+            if(!oneFailed){
+              statusTemp = 'Generate Result Microservice down';
+              oneFailed = true;
+            }
+            else{
+              statusTemp = statusTemp + ', Generate Result Microservice down';
+            }
+    }
+
+    
+
+    try {
       const problems_ms = await fetch('http://localhost:4000/status', {
         method: 'get'
       })
-  
+
+
+      if(!checkMicroservice(problems_ms)){
+        if(!oneFailed){
+          statusTemp = 'Problems Microservice down';
+          oneFailed = true;
+        }
+        else{
+          statusTemp = statusTemp + ', Problems Microservice down';
+        }
+      }
+
+
+    } catch (error) {
+        if(!oneFailed){
+          statusTemp = 'Problems Microservice down';
+          oneFailed = true;
+        }
+        else{
+          statusTemp = statusTemp + ', Problems Microservice down';
+        }
+    }
+    
+
+    try {
       const result_ms = await fetch('http://localhost:4002/status', {
         method: 'get'
       })
-  
-      checkMicroservice(sumbit_ms, 'Submit');
-      checkMicroservice(analytics_ms, 'Analytics');
-      checkMicroservice(generate_ms, 'Generate Results');
-      checkMicroservice(problems_ms, 'Problems');
-      checkMicroservice(result_ms, 'Results');
-      
-    } catch (error) {
-      setStatus('All Microservices down')
-    }
 
+      if(!checkMicroservice(result_ms)){
+        if(!oneFailed){
+          statusTemp = 'Results Microservice down';
+          oneFailed = true;
+        }
+        else{
+          statusTemp = statusTemp + ', Results Microservice down';
+        }
+      }
+  
+    } catch (error) {
+        if(!oneFailed){
+          statusTemp = 'Results Microservice down';
+          oneFailed = true;
+        }
+        else{
+          statusTemp = statusTemp + ', Results Microservice down';
+        }
+    }
+    
+    if(statusTemp){
+      setStatus(statusTemp);
+    }
+  
   }
 
   const addCreds = () => {

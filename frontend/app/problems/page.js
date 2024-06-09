@@ -2,6 +2,7 @@
 
 import Problem from '@/Components/Problem';
 import React, { useEffect, useState } from 'react'
+import { Audio } from 'react-loader-spinner';
 import '@/Styles/problemlist.css'
 
 
@@ -31,7 +32,6 @@ const page = () => {
       }
     })
     .then(data => {
-      console.log(data);
       if(data === undefined){
         setProblems([]);
         setLoading(2);
@@ -72,7 +72,8 @@ const page = () => {
       
     : (loading === 1
     
-      ? <p>Loading...</p>
+      ? <Audio height="80" width="80" radius="9" color="green" ariaLabel="three-dots-loading" wrapperStyle wrapperClass/>
+
       : <p>{errorState}</p>
   )
   )

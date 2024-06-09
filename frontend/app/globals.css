@@ -13,10 +13,12 @@ html{
 
 :root{
   --main-color: #533946;
+  --main-color-shade: hsl(330, 19%, 35%);
   --selection-color: #e6d1b4;
   --bg-color: #0f2c33;
   --bg-color-alt: #21616a;
   --selection-color-alt: #dfc578;
+  --selection-color-alt-shade: hsl(45, 62%, 56%);
 }
 
 *{
