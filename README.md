@@ -14,8 +14,8 @@ The architecture of the app is microservices-based using RESTful APIs for commun
 - [Routes](#routes)
 - [Hosts and Ports](#hosts-and-ports)
 - [Installation and Usage](#installation-and-usage)
-  - [Build and run from docker images](#build-and-run-from-docker-images)
-  - [Build and run from source code](#build-and-run-from-source-code)
+  - [Build the container images from source and run](#build-the-container-images-from-source-and-run)
+  - [Download and run using the prebuilt images](#download-and-run-using-the-prebuilt-images)
 
 
 ### Directories Overview
@@ -103,36 +103,50 @@ The architecture of the app is microservices-based using RESTful APIs for commun
 - `analytics_ms`: localhost:4003
 - `kafka`: localhost:9093
 - `zookeeper`: localhost:2181
-- `adminer`: localhost:8080
-
 
 
 ## Installation and Usage
 
-You can choose to install from the docker images or from the source code.
+All the microservices are dockerized and have been bundled with other necessary services in a docker-compose file.
+The images are also available on Github Packages.
 
-### Build and run from docker images
-TODO
-
-
-### Build and run from source code (LINUX)
-
-build (only once):
+### Build the container images from source and run
+ 
+Build (only once):
 ```bash
 git clone https://github.com/ntua/saas2024-17.git
 cd saas2024-17
-sudo docker network create saas
-sudo docker compose build
+docker network create saas
+docker compose build
 ```
-start:
+Start:
 ```bash
-sudo docker compose up -d
+docker compose up -d
 ```
-stop
+Stop:
 ```bash
-sudo docker compose down
+docker compose down
 ```
 
+### Download and run using the prebuilt images
+
+Authenticate to Github Packages, using a personal access token (PAT) with read:packages scope, because the images are private.
+```bash
+echo GHCR_PAT | docker login ghcr.io -u USERNAME --password-stdin
+```
+where USERNAME is your Github username and GHCR_PAT is your personal access token.
+
+Now modify the docker-compose.yml file to use the prebuilt images as shown in its comments.
+
+Start:
+```bash
+docker compose up -d
+```
+
+Stop:
+```bash
+docker compose down
+```
 
 
 

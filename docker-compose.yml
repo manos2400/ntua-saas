@@ -28,9 +28,11 @@ services:
       timeout: 5s
       retries: 5
   problems-ms:
+    # You can replace the following with the image name from Github Packages
     build:
       context: ./problems_ms/
       target: problems_ms
+    # image: ghcr.io/ntua/saas2024-17/problems-ms:latest
     ports:
       - 4000:4000
     environment:
@@ -64,9 +66,11 @@ services:
       timeout: 5s
       retries: 5
   results-ms:
+    # You can replace the following with the image name from Github Packages
     build:
       context: ./results_ms/
       target: results_ms
+    # image: ghcr.io/ntua/saas2024-17/results-ms:latest
     ports:
       - 4002:4002
     environment:
@@ -100,9 +104,11 @@ services:
       timeout: 5s
       retries: 5
   analytics-ms:
+    # You can replace the following with the image name from Github Packages
     build:
       context: ./analytics_ms/
       target: analytics_ms
+    # image: ghcr.io/ntua/saas2024-17/analytics-ms:latest
     ports:
       - 4003:4003
     environment:
@@ -136,9 +142,11 @@ services:
       timeout: 5s
       retries: 5
   credits-ms:
+    # You can replace the following with the image name from Github Packages
     build:
       context: ./credits_ms/
       target: credits_ms
+    # image: ghcr.io/ntua/saas2024-17/credits-ms:latest
     ports:
       - 4004:4004
     environment:
@@ -170,9 +178,11 @@ services:
       kafka:
         condition: service_started
   generate-result-ms:
+    # You can replace the following with the image name from Github Packages
     build:
       context: ./generate_result_ms/
       target: generate_result_ms
+    # image: ghcr.io/ntua/saas2024-17/generate-result-ms:latest
     ports:
       - 4005:4005
     environment:
@@ -212,21 +222,23 @@ services:
     networks:
       - saas
   frontend:
-     build:
+    # You can replace the following with the image name from Github Packages
+    build:
        context: ./frontend/
        target: frontend
-     ports:
-       - 3000:3000
-     networks:
-       - saas
-     depends_on:
-       - problems-ms
-       - results-ms
-       - analytics-ms
-       - credits-ms
-       - submit-ms
-       - generate-result-ms
-       - kafka
+    # image: ghcr.io/ntua/saas2024-17/frontend:latest
+    ports:
+     - 3000:3000
+    networks:
+     - saas
+    depends_on:
+     - problems-ms
+     - results-ms
+     - analytics-ms
+     - credits-ms
+     - submit-ms
+     - generate-result-ms
+     - kafka
 volumes:
   problems-db-data:
   results-db-data:
