@@ -14,9 +14,8 @@ The architecture of the app is microservices-based using RESTful APIs for commun
 - [Routes](#routes)
 - [Hosts and Ports](#hosts-and-ports)
 - [Installation and Usage](#installation-and-usage)
-  - [Installation from docker images](#installation-from-docker-images)
-  - [Installation from source code](#installation-from-source-code)
-  - [Usage](#usage)
+  - [Build and run from docker images](#build-and-run-from-docker-images)
+  - [Build and run from source code](#build-and-run-from-source-code)
 
 
 ### Directories Overview
@@ -25,7 +24,7 @@ The architecture of the app is microservices-based using RESTful APIs for commun
 - `frontend`: UI for the project
 - `ai-log`: zip files with the logs of the AI models
 - `jmeter`: test plan file and results of stress testing using JMeter
-- `architecture`: Diagrams using Visual Paradigm
+- `architecture`: diagrams using Visual Paradigm
 
 ### Routes
 > frontend routes use the frontend host and port, while every microservice route uses its own host and port
@@ -112,17 +111,112 @@ The architecture of the app is microservices-based using RESTful APIs for commun
 
 You can choose to install from the docker images or from the source code.
 
-### Installation from docker images
+### Build and run from docker images
 TODO
 
 
-### Installation from source code
-TODO
+### Build and run from source code (LINUX)
+<!--
+#### Requirements
 
+install docker:
+> installation is different for every OS, so read the official documentation. Example, for Linux Mint:
+```bash
+sudo apt update
+sudo apt -y install apt-transport-https ca-certificates curl software-properties-common
+sudo apt -y remove docker docker-engine docker.io containerd runc
 
-### Usage
-TODO
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu jammy stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
 
+sudo apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+sudo usermod -aG docker $USER
+newgrp docker
+
+docker version
+docker run --rm -it  --name test alpine:latest /bin/sh
+```
+
+install pnpm and node:
+```bash
+curl -fsSL https://get.pnpm.io/install.sh | sh -
+source ~/.bashrc # update the shell
+pnpm -v # verify
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+export NVM_DIR="$HOME/.nvm"
+source ~/.bashrc # update the shell
+nvm -v # verify
+
+# Node.js
+nvm install 20
+node -v # verify
+npm -v # verify
+```-->
+
+#### Build
+
+clone the repo:
+```bash
+git clone https://github.com/ntua/saas2024-17.git
+cd saas2024-17
+```
+
+<!-- DEN XREIAZETAI, GINETAI STO DOCKERFILE
+build the typescript microservices
+```bash
+cd results_ms
+pnpm install
+pnpm build
+
+cd ../problems_ms
+pnpm install
+pnpm build
+
+cd ../analytics_ms
+pnpm install
+pnpm build
+```-->
+
+create docker network for the project:
+```bash
+cd ../
+sudo docker network create saas
+```
+
+compose the project:
+```bash
+sudo docker compose up -d
+```
+<!--
+initialize kafka:
+```bash
+# sudo docker ps
+sudo docker exec -it solve-my-problem-kafka-1 /bin/bash
+
+# then (in kafka):
+kafka-topics.sh --create --topic MyTopic1 --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1
+
+# verify (in kafka):
+kafka-topics.sh --list --bootstrap-server localhost:9092
+```-->
+
+the project is already running, so you can open your browser and navigate to `localhost:3000`.
+If you want to stop it, see the next paragraph.
+
+#### Start and Stop
+
+to stop the execution
+```bash
+sudo docker compose down
+```
+
+to run again (no need to re-build or re-initialize):
+```bash
+sudo docker compose up -d
+```
 
 
 
