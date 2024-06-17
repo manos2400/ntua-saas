@@ -117,27 +117,20 @@ TODO
 
 ### Build and run from source code (LINUX)
 
-#### Build
-
+build (only once):
 ```bash
 git clone https://github.com/ntua/saas2024-17.git
 cd saas2024-17
 sudo docker network create saas
+sudo docker compose build
+```
+start:
+```bash
 sudo docker compose up -d
 ```
-
-the project is already running, so you can open your browser and navigate to `localhost:3000`.
-
-#### Start and Stop
-
-to stop the execution
+stop
 ```bash
 sudo docker compose down
-```
-
-to run again (no need to re-build or re-initialize):
-```bash
-sudo docker compose up -d
 ```
 
 
