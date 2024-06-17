@@ -13,9 +13,10 @@ The architecture of the app is microservices-based using RESTful APIs for commun
 - [Directories Overview](#directories-overview)
 - [Routes](#routes)
 - [Hosts and Ports](#hosts-and-ports)
-- [Installation and Usage](#installation-and-usage)
-  - [Build the container images from source and run](#build-the-container-images-from-source-and-run)
-  - [Download and run using the prebuilt images](#download-and-run-using-the-prebuilt-images)
+- [Build](#build)
+  - [Build the container images from source](#build-the-container-images-from-source)
+  - [Download using the prebuilt images](#download-using-the-prebuilt-images)
+- [Run](#run)
 
 
 ### Directories Overview
@@ -27,70 +28,35 @@ The architecture of the app is microservices-based using RESTful APIs for commun
 - `architecture`: diagrams using Visual Paradigm
 
 ### Routes
-> frontend routes use the frontend host and port, while every microservice route uses its own host and port
 
 #### Routes for credits_ms
-- `PUT` request to add credits:
-    - *microservice route*: `/addCredits`
-    - *frontend route*: `/solver_api/credits/getCredits`
-- `GET` request to get credits:
-    - *microservice route*: `/getCredits`
-    - *frontend route*: `/solver_api/credits/getCredits`
+- `PUT` request to add credits: `/addCredits`
+- `GET` request to get credits: `/getCredits`
 
 #### Routes for submit_ms
-- `GET` reuest to get microservice status:
-    - *microservice route*: `/status`
-    - *frontend route*: `/solver_api/submitProblem/status`
-- `POST` request to submit a problem:
-    - *microservice route*: `/submit_problem`
-    - *frontend route*: `/solver_api/submitProblem/submit_problem`
-- `POST` request to submit metadata:
-    - *microservice route*: `/submit_metadata`
-    - *frontend route*: `/solver_api/submitProblem/submit_metadata`
+- `GET` reuest to get microservice status: `/status`
+- `POST` request to submit a problem: `/submit_problem`
+- `POST` request to submit metadata: `/submit_metadata`
 
 #### Routes for generate_result_ms
-- `GET` request to get microservice status:
-    - *microservice route*: `/status`
-    - *frontend route*: `/solver_api/generateResults/status`
-- `GET` request to solve a problem:
-    - *microservice route*: `/solveproblem`
-    - *frontend route*: `/solver_api/generateResults/solveproblem`
+- `GET` request to get microservice status: `/status`
+- `GET` request to solve a problem: `/solveproblem`
 
 #### Routes for results_ms
-- `GET` request to get microservice status:
-    - *microservice route*: `/status`
-    - *frontend route*: `/solver_api/results/status`
-- `GET` request to get results for a problem:
-    - *microservice route*: `/results/:id`
-    - *frontend route*: `/solver_api/results/results/:id`
+- `GET` request to get microservice status: `/status`
+- `GET` request to get results for a problem: `/results/:id`
 
 #### Routes for problems_ms
-- `GET` request to get microservice status:
-    - *microservice route*: `/status`
-    - *frontend route*: `/solver_api/problems/status`
-- `GET` request to get all problems:
-    - *microservice route*: `/problems`
-    - *frontend route*: `/solver_api/problems/problems`
-- `GET` request to get a specific problem:
-    - *microservice route*: `/problems/:id`
-    - *frontend route*: `/solver_api/problems/problems/:id`
-- `DELETE` request to remove a specific problem:
-    - *microservice route*: `/problems/:id`
-    - *frontend route*: `/solver_api/problems/problems/:id`
+- `GET` request to get microservice status: `/status`
+- `GET` request to get all problems: `/problems`
+- `GET` request to get a specific problem: `/problems/:id`
+- `DELETE` request to remove a specific problem: `/problems/:id`
 
 #### Routes for analytics_ms
-- `GET` request to get microservice status:
-    - *microservice route*: `/status`
-    - *frontend route*: `/solver_api/analytics/status`
-- `GET` request to get analytics for all problems:
-    - *microservice route*: `/analytics`
-    - *frontend route*: `/solver_api/analytics/analytics`
-- `GET` request to get analytics for a specific problem:
-    - *microservice route*: `/analytics/:id`
-    - *frontend route*: `/solver_api/analytics/analytics/:id`
-- `GET` request to get a list of all submitted problems:
-    - *microservice route*: `/log`
-    - *frontend route*: `/solver_api/analytics/log`
+- `GET` request to get microservice status: `/status`
+- `GET` request to get analytics for all problems: `/analytics`
+- `GET` request to get analytics for a specific problem: `/analytics/:id`
+- `GET` request to get a list of all submitted problems: `/log`
 
 ### Hosts and Ports
 
@@ -105,12 +71,12 @@ The architecture of the app is microservices-based using RESTful APIs for commun
 - `zookeeper`: localhost:2181
 
 
-## Installation and Usage
+## Build
 
 All the microservices are dockerized and have been bundled with other necessary services in a docker-compose file.
 The images are also available on Github Packages.
 
-### Build the container images from source and run
+### Build the container images from source
  
 Build (only once):
 ```bash
@@ -119,16 +85,8 @@ cd saas2024-17
 docker network create saas
 docker compose build
 ```
-Start:
-```bash
-docker compose up -d
-```
-Stop:
-```bash
-docker compose down
-```
 
-### Download and run using the prebuilt images
+### Download using the prebuilt images
 
 Authenticate to Github Packages, using a personal access token (PAT) with read:packages scope, because the images are private.
 ```bash
@@ -137,6 +95,8 @@ echo GHCR_PAT | docker login ghcr.io -u USERNAME --password-stdin
 where USERNAME is your Github username and GHCR_PAT is your personal access token.
 
 Now modify the docker-compose.yml file to use the prebuilt images as shown in its comments.
+
+## Run
 
 Start:
 ```bash
