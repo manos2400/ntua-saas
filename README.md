@@ -77,8 +77,7 @@ All the microservices are dockerized and have been bundled with other necessary 
 The images are also available on Github Packages.
 
 ### Build the container images from source
- 
-Build (only once):
+
 ```bash
 git clone https://github.com/ntua/saas2024-17.git
 cd saas2024-17
