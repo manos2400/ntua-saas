@@ -4,17 +4,17 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone';
 import '@/Styles/submitform.css'
 import { useCredits } from './CreditsProvider';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SubmitForm = () => {
     
     const [filename, setFileName] = useState('');
-    // const [acceptedFile, setAcceptedFile] = useState(null);
     const [metadata, setMetadata] = useState([]);
     const [solver, setSolver] = useState(1);
     const [dataset_name, setDatasetName] = useState('');
     const [dataset_description, setDatasetDescription] = useState('');
-    const [showMessage, setShowMessage] = useState(false);
-    const [messsge, setMessage] = useState('');
+
 
     const {credits, fetchCredits} = useCredits();
 
@@ -54,19 +54,16 @@ const SubmitForm = () => {
     
     const onSubmit = async () => {
         if(credits >= 10){
-            setShowMessage(false);
             if(acceptedFiles[0] === null || acceptedFiles[0] === undefined){
-                setShowMessage(true);
-                setMessage('No file uploaded');
+                toast.error('No file uploaded.');
             }
             else if(!dataset_name || !dataset_description || !metadata[0] || !metadata[1] || !metadata[2] || isNaN(metadata[0]) || isNaN(metadata[1]) || isNaN(metadata[2])){
-                setShowMessage(true);
-                setMessage('Wrong Input. Make sure to fill everything and the number of vehicles, depot and max distance are numbers');
+                toast.error('Please fill all the fields with valid data.');
             }
             else{
                 let form = new FormData();
                 form.append('file', acceptedFiles[0]);
-                form.append('solver_id', solver);
+                form.append('solver_id', solver.toString());
                 form.append('name', dataset_name);
                 form.append('description', dataset_description);
                 form.append('num_vehicles', metadata[0]);
@@ -78,31 +75,38 @@ const SubmitForm = () => {
                         method: 'post',
                         body: form
                     })
-                    .then(response => fetchCredits())
+                    .then(response => response.json())
+                    .then(data => {
+                        // Print any errors from the submit microservice
+                        if(data.error){
+                            toast.error(data.error);
+                        }
+                        else{
+                            toast.success('Problem submitted successfully');
+                            fetchCredits();
+                            ClearInputs();
+                        }
+                    })
     
-                    ClearInputs();
-                    setShowMessage(true);
-                    setMessage('Successful submission!')
+
                     
                 } catch (error) {
-                    setShowMessage(true);
-                    setMessage('Internal Server error. Try again later.');
+                    toast.error('Internal Server error. Try again later.');
                     ClearInputs();
                 }
             }
 
         }
         else{
-            setShowMessage(true);
-            setMessage('Not enough credits')
+            toast.error('Not enough credits to submit.');
             ClearInputs();
         }
     }
 
     const onCancel = async () =>{
         ClearInputs();
-        setShowMessage(false);
-        setMessage('');
+        // setShowMessage(false);
+        // setMessage('');
     }
 
 
@@ -169,10 +173,9 @@ const SubmitForm = () => {
             <button className='btn' onClick={onSubmit}>Upload</button>
             <button className='btn' onClick={onCancel}>Cancel</button>
         </div>
-        {showMessage
-        ? <span>{messsge}</span>
-        : <></>
-        }
+        <ToastContainer
+            position='bottom-center'
+        />
     </section>
   )
 }
