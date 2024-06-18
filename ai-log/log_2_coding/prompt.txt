@@ -1,0 +1,74 @@
+User
+i want to make a basic consumer and producer in kafka , can you give me an example code .
+ChatGPT
+Sure! Below is an example of basic Kafka producer and consumer code in Python using the kafka-python library.
+
+Prerequisites
+Ensure you have Kafka and Zookeeper running. You can download and install Kafka from Apache Kafka.
+Install the kafka-python library using pip:
+bash
+Αντιγραφή κώδικα
+pip install kafka-python
+Kafka Producer Example
+python
+Αντιγραφή κώδικα
+from kafka import KafkaProducer
+import json
+
+def json_serializer(data):
+    return json.dumps(data).encode('utf-8')
+
+producer = KafkaProducer(bootstrap_servers=['localhost:9092'],
+                         value_serializer=json_serializer)
+
+# Example message to send
+message = {'key': 'value'}
+
+# Send the message to the topic 'my-topic'
+producer.send('my-topic', message)
+
+# Ensure all messages are sent
+producer.flush()
+
+print("Message sent successfully!")
+Kafka Consumer Example
+python
+Αντιγραφή κώδικα
+from kafka import KafkaConsumer
+import json
+
+def json_deserializer(data):
+    return json.loads(data.decode('utf-8'))
+
+consumer = KafkaConsumer('my-topic',
+                         bootstrap_servers=['localhost:9092'],
+                         auto_offset_reset='earliest',
+                         enable_auto_commit=True,
+                         group_id='my-group',
+                         value_deserializer=json_deserializer)
+
+print("Starting consumer...")
+for message in consumer:
+    print(f"Received message: {message.value}")
+Explanation
+Kafka Producer:
+
+KafkaProducer is initialized with bootstrap_servers (Kafka broker addresses) and a value_serializer (to serialize the data before sending).
+The json_serializer function converts the message dictionary to a JSON string and encodes it in UTF-8.
+The send method sends the message to the specified topic ('my-topic').
+The flush method ensures all pending messages are sent before the program exits.
+Kafka Consumer:
+
+KafkaConsumer is initialized with the topic name, Kafka broker addresses, and some configuration parameters.
+The json_deserializer function decodes the message from UTF-8 and parses it as JSON.
+The consumer subscribes to the specified topic ('my-topic') and continuously polls for new messages.
+Each received message is printed out.
+Running the Example
+Make sure Kafka and Zookeeper are running.
+Run the producer script to send a message.
+Run the consumer script to receive the message.
+Additional Notes
+Modify the bootstrap_servers to match your Kafka broker addresses.
+The consumer auto_offset_reset parameter can be set to earliest to read from the beginning of the topic or latest to read only new messages.
+You can handle exceptions and implement more sophisticated error handling as needed.
+This basic example should get you started with producing and consuming messages using Kafka in Python.
