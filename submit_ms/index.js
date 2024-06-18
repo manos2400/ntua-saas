@@ -10,7 +10,10 @@ const storage = multer.diskStorage({
         cb(null, 'uploads/'); // Destination folder for uploaded files
     },
     filename: function (req, file, cb) {
-        cb(null, file.originalname); // Use the original file name
+        const  timestamp = new Date().getTime();
+        const original_name = file.originalname.split('.').slice(0, -1).join('.');
+        const name = original_name + '_' + timestamp + '.' + file.originalname.split('.').pop();
+        cb(null, name);
     }
 });
 
