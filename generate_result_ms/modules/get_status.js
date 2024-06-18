@@ -18,8 +18,6 @@ exports.get_status = async (req, res, next) => {
             kafkaStatus: kafkaStatus,
             message: 'Server is running okay'
         };
-
-        console.log('Server status checked');
         res.status(200).json(serverInfo);
     } catch (error) {
         console.error('Error checking server status:', error);
