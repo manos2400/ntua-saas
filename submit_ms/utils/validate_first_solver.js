@@ -2,7 +2,7 @@
 const fs = require('fs');
 
 exports.validate_solver_json = (content,solver_id) => {
-    if (solver_id == 'solver1_id') {
+    if (solver_id === 1) {
         if (content.mimetype !== 'application/json') {
             // Remove uploaded file
             fs.unlinkSync(content.path);
@@ -33,6 +33,6 @@ exports.validate_solver_json = (content,solver_id) => {
 
         return null; // No validation errors
     }else{
-        return null;
+        return 'This solver is not supported yet';
     }
 }

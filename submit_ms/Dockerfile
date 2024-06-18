@@ -8,6 +8,8 @@ RUN npm install
 
 COPY . .
 
+RUN mkdir -p /app/uploads
+
 EXPOSE 4001
 
 CMD ["npm", "start"]

@@ -1,17 +1,10 @@
-const kafka = require('./kafka'); // Assuming you have your Kafka configuration in a file named kafkaConfig.js
+const kafka = require('./kafka');
 
 const producer = kafka.producer();
 
-producer.connect().then(() => {
-    console.log('Kafka producer connected');
-}).catch(error => {
-    console.error('Error connecting to Kafka producer:', error);
-});
-
-exports.send_submition = async (sourcefile,type) => {
+exports.send_submission = async (sourcefile) => {
     try {
-        if (type === 'metadata') {
-            //await producer.connect();
+            await producer.connect();
             const messageData = JSON.parse(sourcefile[0].toString())
             const message = {
                 data: messageData,
@@ -26,24 +19,7 @@ exports.send_submition = async (sourcefile,type) => {
                 topic: 'submit-queue',
                 messages: [{ value: JSON.stringify(message) }]
             });
-            //await producer.disconnect();
-        }
-        
-        else{
-            //await producer.connect();
-            const messageData = sourcefile[0].toString();
-            const message = {
-                data: messageData,
-                name: sourcefile[1],
-                extension: sourcefile[2],
-                type: 'sourcefile'
-            };
-            await producer.send({
-                topic: 'submit-queue',
-                messages:[{ value: JSON.stringify(message) }]
-            });
-            //await producer.disconnect();
-        }
+            await producer.disconnect();
 
     } catch (error) {
         console.error('Error producing messages:', error);
@@ -52,14 +28,14 @@ exports.send_submition = async (sourcefile,type) => {
 
 exports.request_credits = async () => {
     console.log("Requesting credits")
-    //await producer.connect();
+    await producer.connect();
     await producer.send({
         topic: 'test_creds',
         messages: [
             { value: 'check_credits' }
           ]
     });
-    //await producer.disconnect();
+    await producer.disconnect();
 }
 
 //produceMessages(); // for testing purposes

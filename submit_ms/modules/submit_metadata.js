@@ -1,10 +1,10 @@
 const fs = require('fs');
-const { send_submition,request_credits } = require('../kafka/producer.js');
+const { send_submission,request_credits } = require('../kafka/producer.js');
 const { validate_solver_json } = require('../utils/validate_first_solver.js');
-const { generateSubmissionID} = require('../utils/unique_id_producer.js');
+const { generateSubmissionID } = require('../utils/unique_id_producer.js');
 
 
-exports.submit_metadata = async (req, res, next) => {
+exports.submit_metadata = async (req, res) => {
     try {
         const solver_id = req.body.solver_id;
         const dataset_name = req.body.name;
@@ -18,13 +18,13 @@ exports.submit_metadata = async (req, res, next) => {
         }
 
         // Validate format
-        const validationError = validate_solver_json(req.file, solver_id);
+        const validationError = validate_solver_json(req.file, parseInt(solver_id));
         if (validationError) {
             // Remove uploaded file
             fs.unlinkSync(req.file.path);
             return res.status(400).json({ error: validationError });
         }
-        if (num_vehicles == null || depot == null || max_distance == null) {
+        if (!num_vehicles || !depot || !max_distance) {
             console.log(num_vehicles, depot, max_distance)
             return res.status(400).json({ error: 'Missing required fields' });
         }
@@ -33,13 +33,13 @@ exports.submit_metadata = async (req, res, next) => {
         // Send file contents to Kafka topic
         const metadata_id = generateSubmissionID();
         await request_credits();
-        await send_submition([
+        await send_submission([
             fileContent,
             solver_id,dataset_name.toString(),
             dataset_description.toString(),
             metadata_id,
             num_vehicles, depot, max_distance
-        ], "metadata");
+        ]);
         // Remove uploaded file
         fs.unlinkSync(req.file.path);
         res.status(200).json({ message: 'File submitted successfully' });
