@@ -35,15 +35,18 @@ exports.submit_metadata = async (req, res) => {
         await request_credits();
         await send_submission([
             fileContent,
-            solver_id,dataset_name.toString(),
+            solver_id,
+            dataset_name.toString(),
             dataset_description.toString(),
             metadata_id,
             num_vehicles, depot, max_distance
         ]);
-        // Remove uploaded file
-        fs.unlinkSync(req.file.path);
-        res.status(200).json({ message: 'File submitted successfully' });
-        
+        if(fs.existsSync(req.file.path)) {
+            fs.unlinkSync(req.file.path);
+        }
+        // Return success message with metadata ID
+        res.status(200).json({ message: 'Problem submitted successfully', problem_id: metadata_id });
+
     } catch (error) {
         console.error('Error submitting metadata:', error);
         res.status(500).json({ error: 'Internal server error' });

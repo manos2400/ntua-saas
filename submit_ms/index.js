@@ -4,6 +4,10 @@ const multer = require('multer');
 const {submit_metadata} = require('./modules/submit_metadata.js')
 const {get_status} = require('./modules/get_status.js')
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}
+
 // Set up multer storage
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -12,7 +16,7 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
         const  timestamp = new Date().getTime();
         const original_name = file.originalname.split('.').slice(0, -1).join('.');
-        const name = original_name + '_' + timestamp + '.' + file.originalname.split('.').pop();
+        const name = original_name + '_' + timestamp + '_' + getRandomInt(100) + '.' + file.originalname.split('.').pop();
         cb(null, name);
     }
 });
