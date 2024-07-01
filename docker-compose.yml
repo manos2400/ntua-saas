@@ -28,13 +28,14 @@ services:
       timeout: 5s
       retries: 5
   problems-ms:
-    # You can replace the following with the image name from Github Packages
+    # You can replace the following with the image name from GitHub Packages
     build:
       context: ./problems_ms/
       target: problems_ms
     # image: ghcr.io/ntua/saas2024-17/problems-ms:latest
     ports:
       - 4000:4000
+    restart: unless-stopped
     environment:
       - PORT=4000
       - DB_HOST=problems-db
@@ -66,13 +67,14 @@ services:
       timeout: 5s
       retries: 5
   results-ms:
-    # You can replace the following with the image name from Github Packages
+    # You can replace the following with the image name from GitHub Packages
     build:
       context: ./results_ms/
       target: results_ms
     # image: ghcr.io/ntua/saas2024-17/results-ms:latest
     ports:
       - 4002:4002
+    restart: unless-stopped
     environment:
       - PORT=4002
       - DB_HOST=results-db
@@ -104,13 +106,14 @@ services:
       timeout: 5s
       retries: 5
   analytics-ms:
-    # You can replace the following with the image name from Github Packages
+    # You can replace the following with the image name from GitHub Packages
     build:
       context: ./analytics_ms/
       target: analytics_ms
     # image: ghcr.io/ntua/saas2024-17/analytics-ms:latest
     ports:
       - 4003:4003
+    restart: unless-stopped
     environment:
       - PORT=4003
       - DB_HOST=analytics-db
@@ -142,13 +145,14 @@ services:
       timeout: 5s
       retries: 5
   credits-ms:
-    # You can replace the following with the image name from Github Packages
+    # You can replace the following with the image name from GitHub Packages
     build:
       context: ./credits_ms/
       target: credits_ms
     # image: ghcr.io/ntua/saas2024-17/credits-ms:latest
     ports:
       - 4004:4004
+    restart: unless-stopped
     environment:
       - PORT=4004
       - KAFKA_BROKER=kafka:9092
@@ -169,6 +173,7 @@ services:
         target: submit_ms
     ports:
       - 4001:4001
+    restart: unless-stopped
     environment:
       - PORT=4001
       - KAFKA_BROKER=kafka:9092
@@ -178,13 +183,14 @@ services:
       kafka:
         condition: service_started
   generate-result-ms:
-    # You can replace the following with the image name from Github Packages
+    # You can replace the following with the image name from GitHub Packages
     build:
       context: ./generate_result_ms/
       target: generate_result_ms
     # image: ghcr.io/ntua/saas2024-17/generate-result-ms:latest
     ports:
       - 4005:4005
+    restart: unless-stopped
     environment:
       - PORT=4005
       - KAFKA_BROKER=kafka:9092
@@ -222,13 +228,14 @@ services:
     networks:
       - saas
   frontend:
-    # You can replace the following with the image name from Github Packages
+    # You can replace the following with the image name from GitHub Packages
     build:
        context: ./frontend/
        target: frontend
     # image: ghcr.io/ntua/saas2024-17/frontend:latest
     ports:
      - 3000:3000
+    restart: unless-stopped
     networks:
      - saas
     depends_on:
