@@ -16,7 +16,7 @@ const ProblemAnalytics = ({problem}) => {
         <p>Memory: {problem?.memory}</p>
         <p>Memory Peak: {problem?.memoryPeak}</p>
         <p>Timestamp: {problem?.solvedAt}</p>
-        <p>Submition Time: {problem?.submittedAt}</p>
+        <p>Submission Time: {problem?.submittedAt}</p>
         <p>System Time: {problem?.sysTime}</p>
         <p>Time after submission: {problem?.timeAfterSubmission}</p>
         <p>User Time: {problem?.userTime}</p>
