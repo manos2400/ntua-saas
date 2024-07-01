@@ -26,11 +26,11 @@ const Status = () => {
     let statusTemp = '';
     
     try {
-      const sumbit_ms = await fetch('http://localhost:4001/status', {
+      const sumbmit_ms = await fetch('http://localhost:4001/status', {
         method: 'get'
         })
         
-      if(!checkMicroservice(sumbit_ms)){
+      if(!checkMicroservice(sumbmit_ms)){
         console.log(statusTemp);
         if(!oneFailed){
           statusTemp = 'Submit Microservice down';
@@ -162,7 +162,32 @@ const Status = () => {
           statusTemp = statusTemp + ', Results Microservice down';
         }
     }
-    
+
+    try {
+      const credits_ms = await fetch('http://localhost:4004/status', {
+        method: 'get'
+      })
+
+      if(!checkMicroservice(credits_ms)){
+        if(!oneFailed){
+          statusTemp = 'Credits Microservice down';
+          oneFailed = true;
+        }
+        else{
+          statusTemp = statusTemp + ', Credits Microservice down';
+        }
+      }
+
+    } catch (error) {
+      if(!oneFailed){
+        statusTemp = 'Credits Microservice down';
+        oneFailed = true;
+      }
+      else{
+        statusTemp = statusTemp + ', Credits Microservice down';
+      }
+    }
+
     if(statusTemp){
       setStatus(statusTemp);
     }
