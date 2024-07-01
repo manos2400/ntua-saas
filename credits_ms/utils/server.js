@@ -16,5 +16,6 @@ app.use(express.json());
 
 app.use('/', require('../routes/getCredits'));
 app.use('/', require('../routes/addCredits'));
+app.use('/', require('../routes/getStatus'));
 
 module.exports = app;
