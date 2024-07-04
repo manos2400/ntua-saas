@@ -4,7 +4,7 @@ import '../Styles/footer.css';
 const Contributors = [
     {
         name: 'Konstantinos Perifanos',
-        email: 'el20134@mail.ntua.com'
+        email: 'kperifanos2@gmail.com'
     },
     {
         name: 'Emmanouil Kolydakis',
