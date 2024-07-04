@@ -1,4 +1,4 @@
-const kafka = require('./kafka'); // Assuming you have your Kafka configuration in a file named kafkaConfig.js
+const kafka = require('./kafka');
 
 const producer = kafka.producer();
 

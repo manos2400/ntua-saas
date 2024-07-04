@@ -1,4 +1,3 @@
-const kafka = require('kafka-node');
 const sqlite3 = require('sqlite3').verbose();
 
 // Create SQLite database connection
@@ -11,16 +10,13 @@ exports.add_metadata = (message) => {
 
     const datasetName = message.dataset_name || null;
     const datasetDescription = message.dataset_description || null;
-    var inputData = message.data || null;
+    let inputData = message.data || null;
     const uploadDate = new Date().toISOString() || null;
     const timeRes = message.time_res || null;
     const status = message.status || null;
     const solverId = message.solver_id || null;
     const dataset_id = message.id || null;
-    
-    // const numVehicles = message.num_vehicles ? parseInt(message.num_vehicles, 10) : null;
-    // const depot = message.depot ? parseInt(message.depot, 10) : null;
-    // const maxDistance = message.max_distance ? parseInt(message.max_distance, 10) : null;
+
 
     const parameters = message.parameters || [];
     const numVehiclesParam = parameters.find(param => param.hasOwnProperty('num_vehicles'));

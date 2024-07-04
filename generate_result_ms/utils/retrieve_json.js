@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-const {executePythonScript} = require('./get_solver_1.js');
+const {executePythonScript} = require('./get_solver.js');
 
 // Function to open SQLite database connection and fetch JSON data based on metadata_id
 function fetch_and_solve(metadata_id) {
@@ -24,7 +24,7 @@ function fetch_and_solve(metadata_id) {
                         const depot = row.depot;
                         const max_distance = row.max_distance;
 
-                        executePythonScript(num_vehicles,depot,max_distance,solver_id,metadata_id,row.input_data);
+                        executePythonScript(num_vehicles,depot,max_distance,solver_id,metadata_id,jsonData);
                     } else {
                         console.log("No data found in database")
                     }

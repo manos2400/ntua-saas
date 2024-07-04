@@ -11,11 +11,6 @@ const db = new sqlite3.Database('/app/data/mydatabase.db',  sqlite3.OPEN_READWRI
 });
 
 db.serialize(() => {
-    db.run(`CREATE TABLE IF NOT EXISTS Solver (
-        solver_id INTEGER PRIMARY KEY,
-        solver_name TEXT,
-        solver_description TEXT
-    )`)
     db.run(`CREATE TABLE IF NOT EXISTS Input_data (
         dataset_id TEXT PRIMARY KEY,
         dataset_name TEXT,
@@ -29,14 +24,7 @@ db.serialize(() => {
         status TEXT,
         solver_id INTEGER,
         FOREIGN KEY(solver_id) REFERENCES Solver(solver_id)
-    )`)
-    db.run(`CREATE TABLE IF NOT EXISTS Solution (
-        status TEXT,
-        result TEXT,
-        dataset_id INTEGER,
-        FOREIGN KEY(dataset_id) REFERENCES Input_data(dataset_id)
-    )`)
-    
+    )`);
 });
 
 db.close((err) => {

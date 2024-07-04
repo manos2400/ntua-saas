@@ -9,7 +9,6 @@ function executePythonScript(numVehicles, depot, maxDistance,solver_id,metadata_
         pythonProcess.stdin.end();
         
         pythonProcess.stdout.on('data', (data) => {
-            console.log(`Python script output: ${data}`);
             send_solution(data,solver_id,metadata_id);
         });
 

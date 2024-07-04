@@ -1,15 +1,13 @@
 
 const { fetch_and_solve } = require('../utils/retrieve_json.js'); // Import the function to fetch JSON data from the database
 
-
-
 exports.solve_problem = (req, res, next) => {
     const solver_id = req.body.solver_id;
     const metadata_id = req.body.metadata_id;
     if(solver_id === 1){
 
         try {
-            const jsonData = fetch_and_solve(metadata_id);
+            fetch_and_solve(metadata_id);
 
             console.log('Execution completed');
             

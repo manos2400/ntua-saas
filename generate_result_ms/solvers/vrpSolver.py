@@ -82,7 +82,6 @@ def main():
         print("Wrong number of args.\nUsage: python <script_name.py> <input_file.json> <num_vehicles> <depot> <max_distance>")
         sys.exit(1)
 
-    # input_file = "c:/users/ggeor/desktop/saas_project/saas2024-17/generate_result_ms/solvers/stupid/20.json"#os.path.abspath(sys.argv[1])  # Get absolute path
     num_vehicles = int(sys.argv[2])
     depot = int(sys.argv[3])
     max_distance = int(sys.argv[4])
