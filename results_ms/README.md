@@ -1,6 +1,5 @@
-# MICROSERVICE
-
-## Result List
+# Results Microservice
+> shows problem results
 
 This microservice is responsible to:
  - Get and format the results from the other microservices in the `problem-solved` topic.

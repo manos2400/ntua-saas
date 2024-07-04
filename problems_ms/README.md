@@ -1,6 +1,5 @@
-# MICROSERVICE
-
-## Problem List
+# Problems Microservice
+> shows submitted problems
 
 This microservice is responsible to:
  - Get the problems from the other microservices in the `submit-queue` topic.
