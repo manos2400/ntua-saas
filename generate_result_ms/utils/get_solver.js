@@ -4,7 +4,7 @@ const {send_solution} = require('../kafka/producer.js');
 
 function executePythonScript(numVehicles, depot, maxDistance,solver_id,metadata_id,data) {
 
-        const pythonProcess = spawn('python', ['./solvers/vrpSolver.py', "temp", numVehicles, depot, maxDistance]);
+        const pythonProcess = spawn('python', ['./solvers/vrpSolver.py', numVehicles, depot, maxDistance]);
         pythonProcess.stdin.write(JSON.stringify(data));
         pythonProcess.stdin.end();
         

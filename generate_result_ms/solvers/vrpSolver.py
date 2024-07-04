@@ -78,13 +78,13 @@ def read_json_string(json_string):
 
 def main():
     """Entry point of the program."""
-    if len(sys.argv) != 5:
-        print("Wrong number of args.\nUsage: python <script_name.py> <input_file.json> <num_vehicles> <depot> <max_distance>")
+    if len(sys.argv) != 4:
+        print("Wrong number of args.\nUsage: python <script_name.py> <num_vehicles> <depot> <max_distance>")
         sys.exit(1)
 
-    num_vehicles = int(sys.argv[2])
-    depot = int(sys.argv[3])
-    max_distance = int(sys.argv[4])
+    num_vehicles = int(sys.argv[1])
+    depot = int(sys.argv[2])
+    max_distance = int(sys.argv[3])
     input_data = sys.stdin.read()
     locations = read_json_string(input_data)
 
