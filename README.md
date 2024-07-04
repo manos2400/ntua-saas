@@ -30,17 +30,17 @@ The architecture of the app is microservices-based using RESTful APIs for commun
 ### Routes
 
 #### Routes for credits_ms
+- `GET` request to get microservice status: `/getStatus`
 - `PUT` request to add credits: `/addCredits`
 - `GET` request to get credits: `/getCredits`
 
 #### Routes for submit_ms
-- `GET` reuest to get microservice status: `/status`
-- `POST` request to submit a problem: `/submit_problem`
+- `GET` request to get microservice status: `/status`
 - `POST` request to submit metadata: `/submit_metadata`
 
 #### Routes for generate_result_ms
 - `GET` request to get microservice status: `/status`
-- `GET` request to solve a problem: `/solveproblem`
+- `POST` request to solve a problem: `/solveproblem`
 
 #### Routes for results_ms
 - `GET` request to get microservice status: `/status`
