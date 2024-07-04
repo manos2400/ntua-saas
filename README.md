@@ -30,7 +30,7 @@ The architecture of the app is microservices-based using RESTful APIs for commun
 ### Routes
 
 #### Routes for credits_ms
-- `GET` request to get microservice status: `/getStatus`
+- `GET` request to get microservice status: `/status`
 - `PUT` request to add credits: `/addCredits`
 - `GET` request to get credits: `/getCredits`
 
