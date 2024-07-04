@@ -1,4 +1,4 @@
-const { Kafka } = require('kafkajs');
+const { Kafka, Partitioners} = require('kafkajs');
 const { getPool } = require('./database');
 
 class KafkaClient {
@@ -8,7 +8,7 @@ class KafkaClient {
             brokers: [`${process.env.KAFKA_BROKER}`]
         });
         this.consumer = this.kafka.consumer({groupId: 'credits_group'});
-        this.producer = this.kafka.producer();
+        this.producer = this.kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner });
     }
 
 

@@ -1,6 +1,6 @@
 const kafka = require('./kafka');
-
-const producer = kafka.producer();
+const { Partitioners } = require('kafkajs');
+const producer = kafka.producer({ createPartitioner: Partitioners.LegacyPartitioner });
 
 exports.send_solution = async (result_stuff,solverid,metadataid) => {
     try {

@@ -1,4 +1,4 @@
-import {Consumer, Kafka, Producer} from 'kafkajs';
+import {Consumer, Kafka, Partitioners, Producer} from 'kafkajs';
 import chalk from "chalk";
 
 export default class KafkaClient {
@@ -10,7 +10,7 @@ export default class KafkaClient {
             clientId: 'analytics-ms',
             brokers: [`${process.env.KAFKA_BROKER}`]
         });
-        this.producer = this.client.producer();
+        this.producer = this.client.producer({ createPartitioner: Partitioners.LegacyPartitioner});
         this.consumer = this.client.consumer({ groupId: 'analytics-group' });
     }
 
