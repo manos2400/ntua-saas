@@ -135,7 +135,7 @@ const SubmitForm = () => {
         <select className='solver_select'>
               <option>Vehicle Routing Problem Solver</option>
         </select>
-        <h3>Input metadata parameters</h3>
+        <h3>Submit your dataset and metadata (Costs 10 credits)</h3>
         <div className='metadata'>
             <div>
                 <label>Dataset name</label>
@@ -158,13 +158,12 @@ const SubmitForm = () => {
                 })
             }
         </ul>
-        <h3>Drop your json file here!</h3>
         <div {...getRootProps()} className='drag-drop_container'>
             <input {...getInputProps()}/>
             {
                 isDragActive 
-                ?   <p>Drop the files here ...</p>
-                :   <p>Drag and drop files here or click to browse</p>
+                ?   <p>Drop your file here ...</p>
+                :   <p>Drag and drop the dataset file here or click to browse.</p>
             }
       
             <p className='filename'>{filename}</p>

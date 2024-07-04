@@ -4,14 +4,12 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import '@/Styles/problemlist.css'
 import '@/Styles/submitform.css'
-import DropDown from '@/public/Dropdown.svg'
-import Image from 'next/image'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Problem = ({problem, fetchProbs}) => {
 
   const router = useRouter();
-  const [showWarning, setShowWarning] = useState(false);
-  const [warning, setWarning] = useState('');
 
   const [openDropdown, setOpenDropdown] = useState(false);
   const [jsonFile, setJsonFile] = useState('');
@@ -23,52 +21,41 @@ const Problem = ({problem, fetchProbs}) => {
   }, [])
 
   const onRun = () => {
-    if(problem.status === 0){ 
-      fetch('http://localhost:4005/solveproblem', {
-        method : 'post',
-        headers: {'Content-Type' : 'application/json'},
-        body : JSON.stringify({
-          metadata_id : problem.id,
-          solver_id : 1
+    fetch('http://localhost:4005/solveproblem', {
+      method : 'post',
+      headers: {'Content-Type' : 'application/json'},
+      body : JSON.stringify({
+        metadata_id : problem.id,
+        solver_id : 1
+      })
+    })
+        .then(response => {
+          if(response.status === 500){
+            toast.error('Something went wrong. Try again later.');
+          }
+          else{
+            toast.info('Problem submitted for solving!')
+            return response.json();
+          }
         })
-      })
-      .then(response => {
-        if(response.status === 500){
-          setShowWarning(true);
-          setWarning('Something went wrong. Try again later.')
-        }
-        else{
-          return response.json();
-        }
-      })
-      .then(response => {
-        setTimeout(() => {
-          fetchProbs(); 
-        }, 1500);
-      })
-    }
-    else{
-      setWarning('Problem already Solved!')
-      setShowWarning(true);
-    }
-
+        .then(response => {
+          setTimeout(() => {
+            fetchProbs();
+          }, 1500);
+        })
   }
 
   const onDelete = () => {
     fetch('http://localhost:4000/problems/' + problem.id, {
       method: 'delete',
     })
-    .then(response => {
-      fetchProbs();
-    })
+        .then(response => {
+          fetchProbs();
+        })
   }
 
   const onResult = () => {
-    if(problem.status === 0){
-      setWarning('Problem not solved. Click run to solve the problem!');
-      setShowWarning(true);
-    }
-    else{
+    if(problem.status === 1){
       router.push('http://localhost:3000/problems/' + problem.id);
     }
   }
@@ -78,46 +65,56 @@ const Problem = ({problem, fetchProbs}) => {
   }
 
   return (
-    <>
-      <div className='problem_container'>
-        <div>
-          <span>Solver</span>
-          <p>{problem.solver}</p>
-        </div>
-        <div>
-          <span>Dataset Name</span>
-          <p>{problem.datasets[0].name}</p>
-        </div>
-        <div>
-          <span>Metadata</span>
-          <p>{problem.metadata.map((item)=> {return(item.name + " = " + item.value + ', ')})}</p>
-        </div>
-        <div>
-          <span>Status</span>
-          <p>{problem.status === 0 ? 'Pending' : 'Solved'}</p>
-        </div>
-        <button onClick={onRun} className='btn'>run</button>
-        <button onClick={onResult} className='btn'>results</button>
-        <button onClick={onDelete} className='btn'>delete</button>
-        {showWarning
-          ? <span>{warning}</span>
-          : <></>
-        }
-        <Image onClick={onDropdownClick} className='dropdown' alt='dropdown' height={20} width={20} src={DropDown}/>
-      </div>
-      {openDropdown
-       
-        ? <div className='dropdown_container'>
-            <a href={jsonFile} target='_blank'>
-              <h4>
-                JSON file
-              </h4>
-            </a>
+      <>
+        <div className='problem_container'>
+          <div>
+            <span>Solver</span>
+            <p>{problem.solver}</p>
           </div>
+          <div>
+            <span>Dataset Name</span>
+            <p>{problem.datasets[0].name}</p>
+          </div>
+          <div>
+            <span>Dataset Description</span>
+            <p>{problem.datasets[0].description}</p>
+          </div>
+          <div>
+            <span>Metadata</span>
+            <p>{problem.metadata.map((item) => {
+              if (item.name === 'num_vehicles') {
+                return 'Number of vehicles: ' + item.value + ', ';
+              } else if (item.name === 'depot') {
+                return 'Depot: ' + item.value + ', ';
+              } else if (item.name === 'max_distance') {
+                return 'Max Distance: ' + item.value + ', ';
+              }
+            })}</p>
+          </div>
+          <div>
+            <span>Status</span>
+            <p>{problem.status === 0 ? 'Pending' : 'Solved'}</p>
+          </div>
+          {problem.status === 0 && <button onClick={onRun} className='btn'>Run</button>}
+          {problem.status === 1 && <button onClick={onResult} className='btn'>Result</button>}
+          <button onClick={onDropdownClick} className='btn'>Details</button>
+          <button onClick={onDelete} className='btn'>Delete</button>
+        </div>
+        {openDropdown
+            ? <div className='dropdown_container'>
+              <a href={jsonFile} target='_blank'>
+                <h4>
+                  Dataset JSON File
+                </h4>
+              </a>
+            </div>
 
-        : <></>
-      }
-    </>
+            : <></>
+        }
+        <ToastContainer
+            position='bottom-center'
+        />
+      </>
   )
 }
 
