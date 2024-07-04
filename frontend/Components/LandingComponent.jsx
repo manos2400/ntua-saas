@@ -14,7 +14,7 @@ const LandingComponent = () => {
       </section>
       <section className='landing_hero'>
         <Image className='landing_image' src={LandingImage} width={960} height={600} alt='SolveMyProb_landing_image'/>
-        <span>Image design by freepiks</span>
+        {/*<span>Image design by freepiks</span>*/}
       </section>
       <BlurDecor color={1} strength={2} position={1}/>
     </main>
